@@ -1,0 +1,56 @@
+[
+  {
+    "config": {
+      "name": "testcase description",
+      "variables": {}
+    }
+  },
+  {
+    "test": {
+      "name": "/api",
+      "request": {
+        "url": "http://103.224.167.234/api/",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "json": [
+          "login",
+          "test",
+          "test"
+        ]
+      },
+      "extract": [
+        {
+          "token": "content.2.sessionToken"
+        }
+      ],
+      "validate": [
+        {
+          "eq": [
+            "status_code",
+            200
+          ]
+        },
+        {
+          "eq": [
+            "content.0",
+            "connection"
+          ]
+        },
+        {
+          "eq": [
+            "content.1",
+            "ok"
+          ]
+        },
+        {
+          "eq": [
+            "content.2.isAdmin",
+            false
+          ]
+        }
+      ]
+    }
+  }
+]
