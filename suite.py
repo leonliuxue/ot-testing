@@ -1,5 +1,5 @@
 import unittest
-from testopentrade import testRestApi
+from test_opentrade import testRestApi
 from HTMLTestRunner import HTMLTestRunner
 
 testunit = unittest.TestSuite()

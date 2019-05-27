@@ -2,7 +2,7 @@ import json
 
 import requests
 
-class testApi(object):
+class ApiTester(object):
     def __init__(self, method, url, data, session_token = None):
         self.method = method
         self.url = url
@@ -38,12 +38,12 @@ class testApi(object):
         except:
             print('失败')
 
-    def getCode(self):
+    def get_code(self):
         # 获取访问接口的状态码
         code = self.testApi.status_code
         return code
 
-    def getJson(self):
+    def get_json(self):
         # 获取返回信息的json数据
         json_data = self.testApi.json()
         return json_data
