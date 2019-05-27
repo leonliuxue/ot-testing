@@ -1,8 +1,8 @@
 import unittest
 
 # from globals import CASE,host,row_num
-from globals import get_test_cases
-from api_tester import ApiTester
+from old.globals import get_test_cases
+from old.api_tester import ApiTester
 
 session_token = None
 test_cases = get_test_cases()

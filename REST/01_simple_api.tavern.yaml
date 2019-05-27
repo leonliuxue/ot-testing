@@ -1,8 +1,0 @@
-test_name: Test login
-
-stages:
-  - name: login
-    request:
-      url: http://103.224.167.234/api/
-      json:
-        
