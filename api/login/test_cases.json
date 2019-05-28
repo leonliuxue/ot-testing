@@ -1,0 +1,46 @@
+{
+  "test_login_success": {
+    "message": [
+      "login",
+      "test",
+      "test"
+    ],
+    "method": "post",
+    "expected": [
+      "connection",
+      "ok",
+      {
+        "isAdmin": false,
+        "securitiesCheckSum": "6c4b1d50a47490ab5b56d935e1cb6d28ae22ed13",
+        "session": "2018-11-30 10:23:34",
+        "sessionToken": "507ecd12-428a-44f2-b9bc-33236db6238f",
+        "startTime": 1559031034,
+        "userId": 100
+      }
+    ]
+  },
+  "test_login_invalid_username": {
+    "message": [
+      "login",
+      "test1",
+      "test"
+    ],
+    "method": "post",
+    "expected": [
+      "connection",
+      "unknown user"
+    ]
+  },
+  "test_login_invalid_password": {
+    "message": [
+      "login",
+      "test",
+      "test1"
+    ],
+    "method": "post",
+    "expected": [
+      "connection",
+      "wrong password"
+    ]
+  }
+}
