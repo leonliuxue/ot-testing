@@ -6,18 +6,13 @@
       "test"
     ],
     "method": "post",
-    "expected": [
-      "connection",
-      "ok",
-      {
-        "isAdmin": false,
-        "securitiesCheckSum": "6c4b1d50a47490ab5b56d935e1cb6d28ae22ed13",
-        "session": "2018-11-30 10:23:34",
-        "sessionToken": "507ecd12-428a-44f2-b9bc-33236db6238f",
-        "startTime": 1559031034,
-        "userId": 100
-      }
-    ]
+    "expected": {
+      "status_code": 200,
+      "text": [
+        "connection",
+        "ok"
+      ]
+    }
   },
   "test_login_invalid_username": {
     "message": [
@@ -26,10 +21,13 @@
       "test"
     ],
     "method": "post",
-    "expected": [
-      "connection",
-      "unknown user"
-    ]
+    "expected": {
+      "status_code": 200,
+      "text": [
+        "connection",
+        "unknown user"
+      ]
+    }
   },
   "test_login_invalid_password": {
     "message": [
@@ -38,9 +36,37 @@
       "test1"
     ],
     "method": "post",
-    "expected": [
-      "connection",
-      "wrong password"
-    ]
+    "expected": {
+      "status_code": 200,
+      "text": [
+        "connection",
+        "wrong password"
+      ]
+    }
+  },
+  "test_login_invalid_message": {
+    "message": [
+      "login",
+      ""
+    ],
+    "method": "post",
+    "expected": {
+      "status_code": 200,
+      "text": [
+        "error",
+        ""
+      ]
+    }
+  },
+  "test_login_invalid_message2": {
+    "message": [
+      "login"
+    ],
+    "method": "post",
+    "expected": {
+      "status_code": 502,
+      "text": [
+      ]
+    }
   }
 }

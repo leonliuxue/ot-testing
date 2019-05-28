@@ -1,20 +1,33 @@
+import json
 import unittest
 
-class TestStringMethods(unittest.TestCase):
+import requests
 
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
 
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
+class TestLoginMethods(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.url = 'http://103.224.167.234/api/'
 
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
+        with open('test_cases.json') as f:
+            cls.test_cases = json.load(f)
+
+    def test_login(self):
+        for key, test_case in self.test_cases.items():
+            res = requests.post(self.url, data=json.dumps(test_case['message']))
+            self.assertIsNotNone(res)
+            self.assertEqual(res.status_code, test_case['expected']['status_code'])
+
+            if res.status_code is 200:
+                self.assertEqual(json.loads(res.text)[0], test_case['expected']['text'][0])
+                self.assertEqual(json.loads(res.text)[1], test_case['expected']['text'][1])
+
+                if json.loads(res.text)[1] is 'ok':
+                    self.assertIsNot(json.loads(res.text)[2]['sessionToken'], '')
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
