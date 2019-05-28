@@ -155,11 +155,11 @@
   <table id="summary">
     <tr>
       <th>START AT</th>
-      <td colspan="4">2019-05-28 01:18:06</td>
+      <td colspan="4">2019-05-28 01:23:30</td>
     </tr>
     <tr>
       <th>DURATION</th>
-      <td colspan="4">0.062 seconds</td>
+      <td colspan="4">0.054 seconds</td>
     </tr>
     <tr>
       <th>PLATFORM</th>
@@ -205,7 +205,7 @@
     <tr id="record_1_1">
       <th class="failure" style="width:5em;">failure</th>
       <td colspan="2">/api</td>
-      <td style="text-align:center;width:6em;">37.32 ms</td>
+      <td style="text-align:center;width:6em;">25.68 ms</td>
       <td class="detail">
 
         
@@ -271,7 +271,7 @@
                           </div>
                           
                           <div>
-                            <strong>Content-Length</strong>: 31
+                            <strong>Content-Length</strong>: 23
                           </div>
                           
                         
@@ -282,7 +282,7 @@
                       <th>body</th>
                       <td>
                         
-                          &#34;[\&#34;login\&#34;,\&#34;test\&#34;,\&#34;test\&#34;]&#34;
+                          ["login","test","test"]
                         
                       </td>
                     </tr>
@@ -358,7 +358,7 @@
                             </div>
                             
                             <div>
-                              <strong>Date</strong>: Mon, 27 May 2019 17:18:06 GMT
+                              <strong>Date</strong>: Mon, 27 May 2019 17:23:30 GMT
                             </div>
                             
                             <div>
@@ -532,7 +532,7 @@
                             </div>
                             
                             <div>
-                              <strong>Date</strong>: Mon, 27 May 2019 17:18:06 GMT
+                              <strong>Date</strong>: Mon, 27 May 2019 17:23:30 GMT
                             </div>
                             
                             <div>
@@ -579,6 +579,17 @@
                       <th>actual value</th>
                     </tr>
                     
+                    <tr>
+                      
+                      <td class="failed">
+                      
+                        status_code
+                      </td>
+                      <td>equals</td>
+                      <td>200</td>
+                      <td>400</td>
+                    </tr>
+                    
                   </table>
               </div>
 
@@ -591,11 +602,11 @@
                     </tr>
                   <tr>
                     <th>response_time(ms)</th>
-                    <td>37.32</td>
+                    <td>25.68</td>
                   </tr>
                   <tr>
                     <th>elapsed(ms)</th>
-                    <td>7.515</td>
+                    <td>5.474</td>
                   </tr>
                 </table>
               </div>
@@ -612,10 +623,17 @@
               <h2>Traceback Message</h2>
               <a class="close" href="#record_1_1">&times;</a>
               <div class="content"><pre>Traceback (most recent call last):
+  File &#34;/Users/xueliu/miniconda3/lib/python3.7/site-packages/httprunner/response.py&#34;, line 143, in _extract_field_with_delimiter
+    return headers[sub_query]
+KeyError: &#39;content-type&#39;
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
   File &#34;/Users/xueliu/miniconda3/lib/python3.7/site-packages/httprunner/api.py&#34;, line 54, in test
     test_runner.run_test(test_dict)
-httprunner.exceptions.ExtractFailure: Failed to extract attribute from response body! =&gt; content.token
-response body: Could not open path /api/: boost::filesystem::canonical: No such file or directory: &#34;/home/hzhou/.p/ot2/web/api/&#34;
+httprunner.exceptions.ExtractFailure: Failed to extract header! =&gt; headers.Content-Type
+response headers: {&#39;Server&#39;: &#39;nginx/1.14.0 (Ubuntu)&#39;, &#39;Date&#39;: &#39;Mon, 27 May 2019 17:23:30 GMT&#39;, &#39;Content-Length&#39;: &#39;113&#39;, &#39;Connection&#39;: &#39;keep-alive&#39;}
 
 
 During handling of the above exception, another exception occurred:
@@ -623,8 +641,8 @@ During handling of the above exception, another exception occurred:
 Traceback (most recent call last):
   File &#34;/Users/xueliu/miniconda3/lib/python3.7/site-packages/httprunner/api.py&#34;, line 56, in test
     self.fail(str(ex))
-AssertionError: Failed to extract attribute from response body! =&gt; content.token
-response body: Could not open path /api/: boost::filesystem::canonical: No such file or directory: &#34;/home/hzhou/.p/ot2/web/api/&#34;
+AssertionError: Failed to extract header! =&gt; headers.Content-Type
+response headers: {&#39;Server&#39;: &#39;nginx/1.14.0 (Ubuntu)&#39;, &#39;Date&#39;: &#39;Mon, 27 May 2019 17:23:30 GMT&#39;, &#39;Content-Length&#39;: &#39;113&#39;, &#39;Connection&#39;: &#39;keep-alive&#39;}
 
 </pre></div>
             </div>
