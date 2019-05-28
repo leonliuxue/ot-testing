@@ -1,0 +1,20 @@
+- config:
+    name: login
+    base_url: http://103.224.167.234
+    variables:
+      user_id: ${gen_user_id()}
+      return_code: 200
+- test:
+    name: /api
+    request:
+      method: POST
+      url: /api/
+      headers:
+        Content-Type: application/json
+      json:
+        ["login","test","test"]
+#    extract:
+#      token: content.2.sessionToken
+
+    validate:
+      - eq: [status_code, 200]
