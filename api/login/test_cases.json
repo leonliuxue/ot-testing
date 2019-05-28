@@ -1,72 +1,74 @@
 {
-  "test_login_success": {
-    "message": [
-      "login",
-      "test",
-      "test"
-    ],
-    "method": "post",
-    "expected": {
-      "status_code": 200,
-      "text": [
-        "connection",
-        "ok"
-      ]
-    }
-  },
-  "test_login_invalid_username": {
-    "message": [
-      "login",
-      "test1",
-      "test"
-    ],
-    "method": "post",
-    "expected": {
-      "status_code": 200,
-      "text": [
-        "connection",
-        "unknown user"
-      ]
-    }
-  },
-  "test_login_invalid_password": {
-    "message": [
-      "login",
-      "test",
-      "test1"
-    ],
-    "method": "post",
-    "expected": {
-      "status_code": 200,
-      "text": [
-        "connection",
-        "wrong password"
-      ]
-    }
-  },
-  "test_login_invalid_message": {
-    "message": [
-      "login",
-      ""
-    ],
-    "method": "post",
-    "expected": {
-      "status_code": 200,
-      "text": [
-        "error",
+  "test_login": {
+    "test_login_success": {
+      "message": [
+        "login",
+        "test",
+        "test"
+      ],
+      "method": "post",
+      "expected": {
+        "status_code": 200,
+        "text": [
+          "connection",
+          "ok"
+        ]
+      }
+    },
+    "test_login_invalid_username": {
+      "message": [
+        "login",
+        "test1",
+        "test"
+      ],
+      "method": "post",
+      "expected": {
+        "status_code": 200,
+        "text": [
+          "connection",
+          "unknown user"
+        ]
+      }
+    },
+    "test_login_invalid_password": {
+      "message": [
+        "login",
+        "test",
+        "test1"
+      ],
+      "method": "post",
+      "expected": {
+        "status_code": 200,
+        "text": [
+          "connection",
+          "wrong password"
+        ]
+      }
+    },
+    "test_login_invalid_message": {
+      "message": [
+        "login",
         ""
-      ]
-    }
-  },
-  "test_login_invalid_message2": {
-    "message": [
-      "login"
-    ],
-    "method": "post",
-    "expected": {
-      "status_code": 502,
-      "text": [
-      ]
+      ],
+      "method": "post",
+      "expected": {
+        "status_code": 200,
+        "text": [
+          "error",
+          ""
+        ]
+      }
+    },
+    "test_login_invalid_message2": {
+      "message": [
+        "login"
+      ],
+      "method": "post",
+      "expected": {
+        "status_code": 502,
+        "text": [
+        ]
+      }
     }
   }
 }
