@@ -1,0 +1,62 @@
+config:
+  url: http://103.224.167.234/api/
+  login: ["login", "test", "test"]
+
+tests:
+  admin:
+    - test_login_success:
+      message: ["login", "test", "test"]
+      method: post
+      expected:
+        status_code: 200
+        text: ["connection", "ok"]
+    - test_login_invalid_user:
+      message: ["login", "test1", "test"]
+      method: post
+      expected:
+        status_code: 200
+        text: ["connection", "unknown user"]
+    - test_login_invalid_password:
+      message: ["login", "test", "test1"]
+      method: post
+      expected:
+        status_code: 200
+        text: ["connection", "wrong password"]
+    - test_login_invalid_message:
+      message: ["login", ""]
+      method: post
+      expected:
+        status_code: 200
+        text: ["error", ""]
+    - test_validate_user_success:
+      message: ["validate_user", "test", "test"]
+      method: post
+      expected:
+        status_code: 200
+        text: ["connection", "ok"]
+    - test_validate_user_invalid_user:
+      message: ["validate_user", "test1", "test"]
+      method: post
+      expected:
+        status_code: 200
+        text: ["connection", "unknown user"]
+    - test_validate_user_invalid_password:
+      message: ["validate_user", "test", "test1"]
+      method: post
+      expected:
+        status_code: 200
+        text: ["connection", "wrong password"]
+    - test_validate_user_invalid_message:
+      message: ["validate_user", ""]
+      method: post
+      expected:
+        status_code: 200
+        text: ["error", ""]
+
+  securities:
+    test_securities_success:
+      message: ["securities"]
+      method: post
+      expected:
+        status_code: 200
+        total_securities: 12902
