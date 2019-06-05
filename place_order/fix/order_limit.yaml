@@ -1,0 +1,45 @@
+order_limit_1:
+  type: limit
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 10
+    Price: 0
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12273
+      side: Buy
+    ValidSeconds: 300
+
+order_limit_2:
+  type: limit
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 10
+    Price: 0
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12273 
+      side: Buy
+    ValidSeconds: 300
+order_limit_2:
+  test: Buy price is lower than market price. Wait until the day
+  type: limit
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 10
+    Price: 1.3545
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12273
+      side: Buy
+    ValidSeconds: 300
+

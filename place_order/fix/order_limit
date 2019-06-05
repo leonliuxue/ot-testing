@@ -1,0 +1,1 @@
+['algo','new','TWAP', str(uuid.uuid4()), {'Aggression': 'Highest','InternalCross': None,'MaxPov': 0,'MinSize': 10,'Price': 0,'Security': {'acc': 'SIM','qty': 100,'sec': 12273,'side': 'Buy'},'ValidSeconds': 300}]
