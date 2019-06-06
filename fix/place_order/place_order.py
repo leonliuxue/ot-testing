@@ -49,13 +49,13 @@ def test(ws, msg):
   ws.send(json.dumps(msg))
 
 
-def test_limit_order(ws, msg):
-  cmd = ['algo', 'new', 'TWAP', str(uuid.uuid4()), msg]
+def place_limit_order(ws, algo, msg):
+  cmd = ['algo', 'new', algo, str(uuid.uuid4()), msg]
   print(cmd)
   ws.send(json.dumps(cmd))
 
 
-def test_order_market(ws, msg):
+def place_order_market(ws, msg):
   cmd = msg
   print(cmd)
   ws.send(json.dumps(cmd))
@@ -63,6 +63,10 @@ def test_order_market(ws, msg):
 
 if __name__ == '__main__':
   try:
+    if len(sys.argv) == 1:
+      print('Error. Test case yaml file should be input argument.')
+      exit()
+
     ws = login()
 
     tc_file = sys.argv[1]
@@ -70,22 +74,24 @@ if __name__ == '__main__':
     with open(tc_file, 'r') as f:
       ret = yaml.safe_load(f)
 
-    test_metadata = {}
+    test_log = {}
     for key, val in ret.items():
-      #print(key)
-      test_metadata[key] = {
-          'order_type': val['order_type'],
-          'test_time': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
-          'msg': val['msg'],
-          'symbol': val['symbol']
-      }
-      if val['order_type'] == 'limit':
-        test_limit_order(ws, val['msg'])
-      elif val['order_type'] == 'market':
-        test_order_market(ws, val['msg'])
+      msg = val['msg']
+      order_type = val['order_type'] 
+
+      if order_type == 'limit':
+        algo = val['algo']
+        place_limit_order(ws, algo, msg)
+        test_log[key] = {
+            'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
+        }
+
+      #elif order_type == 'market':
+      #  place_order_market(ws, msg)
+      #  test_log[key] = {'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3], }
 
     with open(TEST_LOG_FILE, 'w') as outfile:
-      yaml.dump(test_metadata, outfile, default_flow_style=False)
+      yaml.dump(test_log, outfile, default_flow_style=False)
 
     #ws.run_forever()
   except KeyboardInterrupt:
