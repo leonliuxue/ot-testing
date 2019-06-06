@@ -8,6 +8,7 @@ import uuid
 import sys
 import ast
 import yaml
+from datetime import datetime
 
 addr = 'ws://127.0.0.1:9217/ot/'
 
@@ -26,8 +27,8 @@ class DummyClient(WebSocketClient):
     m = m.data.decode("utf-8")
     #print(m[2:7])
     #if m[2:7] == 'order':
-    print(m)
-    #pass
+    #print(m)
+    pass
 
 
 def openWs():
@@ -52,36 +53,37 @@ def test_limit_order(ws, msg):
   print(cmd)
   ws.send(json.dumps(cmd))
 
+
 def test_order_market(ws, msg):
   cmd = msg
   print(cmd)
   ws.send(json.dumps(cmd))
 
+
 if __name__ == '__main__':
   try:
     ws = login()
 
-    #print(sys.argv[1])
     tc_file = sys.argv[1]
-    with open(tc_file) as f:
-      lines = f.readlines()
 
     with open(tc_file, 'r') as f:
       ret = yaml.safe_load(f)
-      #print(ret)
-    
-    cmd = ['position', 12273, 'SIM']
-    ws.send(json.dumps(cmd))
 
+    test_metadata = {}
     for key, val in ret.items():
-      #print(val)
+      #print(key)
+      test_metadata[key] = {
+          'test_time': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
+          'msg': val['msg']
+      }
       if val['type'] == 'limit':
         test_limit_order(ws, val['msg'])
       elif val['type'] == 'market':
         test_order_market(ws, val['msg'])
-    
 
+    with open('./execute_log.yml', 'w') as outfile:
+      yaml.dump(test_metadata, outfile, default_flow_style=False)
 
-    ws.run_forever()
+    #ws.run_forever()
   except KeyboardInterrupt:
     ws.close()

@@ -27,7 +27,7 @@ order_limit_2:
       sec: 12273 
       side: Buy
     ValidSeconds: 300
-order_limit_2:
+order_limit_3:
   test: Buy price is lower than market price. Wait until the day
   type: limit
   msg:

@@ -1,5 +1,0 @@
-market_order_1:
-  type: market
-  msg: ['order', 12273, 'SIM', 'Sell', 'market', 'Day', 10, 1.3557, 0]
-
-
