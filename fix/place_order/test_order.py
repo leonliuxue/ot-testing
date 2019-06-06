@@ -62,7 +62,7 @@ def parse_fix_order_limit(msg, test_at):
   symbol = SECURITY_DICT[security['sec']]
   acc = security['acc'].lower()
   side = SIDE_DICT[security['side'].lower()]
-  order_type = TYPE_DICT['limit']
+  order_type = TYPE_DICT['market']
   tif = TIF_DICT['day']
   min_size = msg['MinSize']
   quantity = min_size
@@ -73,9 +73,6 @@ def parse_fix_order_limit(msg, test_at):
 
   out, err = subprocess.Popen(cmd, shell=True,
                               stdout=subprocess.PIPE).communicate()
-
-  print(out)
-  print(err)
   
   ret = 'NOK' if out == '' or err is not None else 'OK'
 
