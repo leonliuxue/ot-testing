@@ -49,13 +49,13 @@ def test(ws, msg):
   ws.send(json.dumps(msg))
 
 
-def place_limit_order(ws, algo, msg):
+def place_order_algo(ws, algo, msg):
   cmd = ['algo', 'new', algo, str(uuid.uuid4()), msg]
   print(cmd)
   ws.send(json.dumps(cmd))
 
 
-def place_order_market(ws, msg):
+def place_order(ws, msg):
   cmd = msg
   print(cmd)
   ws.send(json.dumps(cmd))
@@ -76,19 +76,29 @@ if __name__ == '__main__':
 
     test_log = {}
     for key, val in ret.items():
+      algo = val['algo']
       msg = val['msg']
-      order_type = val['order_type'] 
-
-      if order_type == 'limit':
-        algo = val['algo']
-        place_limit_order(ws, algo, msg)
+      
+      if algo == 'MANUAL':
+        place_order(ws, msg)
         test_log[key] = {
             'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
         }
+      elif algo == 'TWAP':
+        place_order_algo(ws, algo, msg)
 
-      #elif order_type == 'market':
-      #  place_order_market(ws, msg)
-      #  test_log[key] = {'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3], }
+    #order_type = val['order_type']
+
+    #if order_type == 'limit':
+    #  algo = val['algo']
+    #  place_limit_order(ws, algo, msg)
+    #  test_log[key] = {
+    #      'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
+    #  }
+
+    #elif order_type == 'market':
+    #  place_order_market(ws, msg)
+    #  test_log[key] = {'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3], }
 
     with open(TEST_LOG_FILE, 'w') as outfile:
       yaml.dump(test_log, outfile, default_flow_style=False)

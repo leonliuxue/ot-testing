@@ -73,7 +73,7 @@ def parse_fix_order_limit(msg, test_at):
 
   out, err = subprocess.Popen(cmd, shell=True,
                               stdout=subprocess.PIPE).communicate()
-  
+
   ret = 'NOK' if out == '' or err is not None else 'OK'
 
   return ret
@@ -108,13 +108,22 @@ if __name__ == '__main__':
     msg = TEST_CASES_DICT[key]['msg']
     print('WS msg: {}'.format(msg))
 
-    order_type = TEST_CASES_DICT[key]['order_type']
+    algo = TEST_CASES_DICT[key]['algo']
     ret = ''
     test_at = val['test_at']
-    if order_type == 'market':
-      ret = parse_fix_order_market(msg, test_at)
-    elif order_type == 'limit':
-      ret = parse_fix_order_limit(msg, test_at)
+    if algo == 'MANUAL':
+      order_type = msg[4]
+      if order_type == 'market':   
+        ret = parse_fix_order_market(msg, test_at)
+      elif order_type == 'limit':
+          pass
+    elif algo == 'TWAP':
+        pass
+
+    #if order_type == 'market':
+    #  ret = parse_fix_order_market(msg, test_at)
+    #elif order_type == 'limit':
+    #  ret = parse_fix_order_limit(msg, test_at)
 
     if ret == '' or ret == 'NOK':
       test_cases_nok.append(key)
