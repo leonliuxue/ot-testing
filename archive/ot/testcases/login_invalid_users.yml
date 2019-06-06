@@ -1,8 +1,0 @@
-config:
-  name: login multiple users
-
-testcases:
-  login user:
-    testcase: login.yml
-    parameters:
-      user_id: ["test"]
