@@ -1,0 +1,91 @@
+market_order_1:
+  type: market
+  symbol: USDAUD
+  msg: ['order', 12273, 'SIM', 'Sell', 'market', 'Day', 10, 1.3557, 0]
+
+market_order_2:
+  type: market
+  symbol: USDJPY
+  msg: ['order', 12285, 'SIM', 'Buy', 'market', 'Day', 11, 1.3557, 0]
+
+market_order_3:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'Day', 13, 1.3557, 0]
+
+market_order_4:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'Day', 14, 1.3557, 0]
+
+market_order_5:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'Day', 15, 1.3557, 0]
+
+market_order_6:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'GTC', 15, 1.3557, 0]
+
+market_order_7:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'OPG', 15, 1.3557, 0]
+
+market_order_8:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'IOC', 15, 1.3557, 0]
+
+market_order_9:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'FOK', 15, 1.3557, 0]
+
+market_order_10:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'GTX', 152, 1.3557, 0]
+
+market_order_11:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'GTD', 151, 1.3557, 0]
+
+market_order_12:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'Day', 15, 1.3557, 0]
+
+market_order_13:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'GTC', 15, 1.3557, 0]
+
+market_order_14:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'OPG', 15, 1.3557, 0]
+
+market_order_15:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'IOC', 15, 1.3557, 0]
+
+market_order_16:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'FOK', 15, 1.3557, 0]
+
+market_order_17:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'GTX', 152, 1.3557, 0]
+
+market_order_18:
+  type: market
+  symbol: USDSGD
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'GTD', 151, 1.3557, 0]
+
+

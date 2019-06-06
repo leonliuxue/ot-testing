@@ -11,7 +11,7 @@ import yaml
 from datetime import datetime
 
 addr = 'ws://127.0.0.1:9217/ot/'
-
+TEST_LOG_FILE = 'test_log.yml'
 
 class DummyClient(WebSocketClient):
 
@@ -73,15 +73,17 @@ if __name__ == '__main__':
     for key, val in ret.items():
       #print(key)
       test_metadata[key] = {
+          'type': val['type'],
           'test_time': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
-          'msg': val['msg']
+          'msg': val['msg'],
+          'symbol': val['symbol']
       }
       if val['type'] == 'limit':
         test_limit_order(ws, val['msg'])
       elif val['type'] == 'market':
         test_order_market(ws, val['msg'])
 
-    with open('./execute_log.yml', 'w') as outfile:
+    with open(TEST_LOG_FILE, 'w') as outfile:
       yaml.dump(test_metadata, outfile, default_flow_style=False)
 
     #ws.run_forever()
