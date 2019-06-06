@@ -1,0 +1,252 @@
+1:
+  msg:
+  - order
+  - 12273
+  - SIM
+  - Sell
+  - market
+  - Day
+  - 10
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDAUD
+  test_time: 20190606-11:43:41.029
+2:
+  msg:
+  - order
+  - 12285
+  - SIM
+  - Buy
+  - market
+  - Day
+  - 11
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDJPY
+  test_time: 20190606-11:43:41.029
+3:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - Day
+  - 13
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+4:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - Day
+  - 14
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+5:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - Day
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+6:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - GTC
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+7:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - OPG
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+8:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - IOC
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+9:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - FOK
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+10:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - GTX
+  - 152
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+11:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Sell
+  - market
+  - GTD
+  - 151
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+12:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Buy
+  - market
+  - Day
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+13:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Buy
+  - market
+  - GTC
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+14:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Buy
+  - market
+  - OPG
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+15:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Buy
+  - market
+  - IOC
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+16:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Buy
+  - market
+  - FOK
+  - 15
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+17:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Buy
+  - market
+  - GTX
+  - 152
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
+18:
+  msg:
+  - order
+  - 12295
+  - SIM
+  - Buy
+  - market
+  - GTD
+  - 151
+  - 1.3557
+  - 0
+  order_type: market
+  symbol: USDSGD
+  test_time: 20190606-11:43:41.029
