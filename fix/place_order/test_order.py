@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import sys
 import subprocess
 import yaml
 
@@ -40,8 +41,27 @@ with open('../../security.yml', 'r') as f:
 with open('test_cases.yml', 'r') as f:
   TEST_CASES_DICT = yaml.safe_load(f)
 
+with open(TEST_LOG_FILE, 'r') as f:
+  TEST_LOG = yaml.safe_load(f)
 
-def parse_fix_order_market(msg, test_at):
+
+def test_manual_market_order(msg, test_at):
+  symbol = SECURITY_DICT[msg[1]]
+
+  acc, side, order_type, tif, quantity = convert_to_fix_fields(msg)
+
+  cmd = '''awk -F, '$1 >= "{}" && /35=D/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/ && /38={}/' < {}'''.format(
+      test_at, symbol, acc, side, order_type, tif, quantity, FIX_LOG_FILE)
+
+  out, err = subprocess.Popen(cmd, shell=True,
+                              stdout=subprocess.PIPE).communicate()
+
+  ret = 'NOK' if out == '' or err is not None else 'OK'
+
+  return ret
+
+
+def test_manual_limit_order(msg, test_at):
   symbol = SECURITY_DICT[msg[1]]
 
   acc, side, order_type, tif, quantity = convert_to_fix_fields(msg)
@@ -95,35 +115,43 @@ def convert_to_fix_fields(msg):
 
 if __name__ == '__main__':
 
-  with open(TEST_LOG_FILE, 'r') as f:
-    test_log = yaml.safe_load(f)
+  if len(sys.argv) == 1:
+    print('Error. Order log file should be input argument.')
+    exit()
+
+  order_file = sys.argv[1]
+
+  with open(order_file.split('.')[0] + '_log.yml') as f:
+    order_log = yaml.safe_load(f)
+    print(order_log)
+
+  with open(order_file, 'r') as f:
+    orders = yaml.safe_load(f)
+    print(orders)
 
   test_cases_ok = []
   test_cases_nok = []
-
   test_results = {}
-  for key, val in test_log.items():
+
+  for key, val in order_log.items():
     print('Test case: {}'.format(key))
 
-    msg = TEST_CASES_DICT[key]['msg']
+    msg = orders[key]['msg']
     print('WS msg: {}'.format(msg))
 
-    algo = TEST_CASES_DICT[key]['algo']
+    algo = orders[key]['algo']
     ret = ''
-    test_at = val['test_at']
+    test_at = val['place_order_at']
+
     if algo == 'MANUAL':
       order_type = msg[4]
-      if order_type == 'market':   
-        ret = parse_fix_order_market(msg, test_at)
+      if order_type == 'market':
+        ret = test_manual_market_order(msg, test_at)
       elif order_type == 'limit':
-          pass
-    elif algo == 'TWAP':
-        pass
-
-    #if order_type == 'market':
-    #  ret = parse_fix_order_market(msg, test_at)
-    #elif order_type == 'limit':
-    #  ret = parse_fix_order_limit(msg, test_at)
+        ret = test_manual_limit_order(msg, test_at)
+    elif algo == 'TWAP' and (order_log_file == 'all'
+                             or order_log_file == 'limit'):
+      pass
 
     if ret == '' or ret == 'NOK':
       test_cases_nok.append(key)

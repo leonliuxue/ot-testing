@@ -69,20 +69,22 @@ if __name__ == '__main__':
 
     ws = login()
 
-    tc_file = sys.argv[1]
+    order_file = sys.argv[1]
 
-    with open(tc_file, 'r') as f:
-      ret = yaml.safe_load(f)
+    with open(order_file, 'r') as f:
+      orders = yaml.safe_load(f)
 
-    test_log = {}
-    for key, val in ret.items():
+    order_logs = {}
+
+    for key, val in orders.items():
       algo = val['algo']
       msg = val['msg']
-      
+
       if algo == 'MANUAL':
         place_order(ws, msg)
-        test_log[key] = {
-            'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
+        order_logs[key] = {
+            'place_order_at':
+            datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
         }
       elif algo == 'TWAP':
         place_order_algo(ws, algo, msg)
@@ -100,8 +102,8 @@ if __name__ == '__main__':
     #  place_order_market(ws, msg)
     #  test_log[key] = {'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3], }
 
-    with open(TEST_LOG_FILE, 'w') as outfile:
-      yaml.dump(test_log, outfile, default_flow_style=False)
+    with open(order_file.split('.')[0] + '_log.yml', 'w') as outfile:
+      yaml.dump(order_logs, outfile, default_flow_style=False)
 
     #ws.run_forever()
   except KeyboardInterrupt:

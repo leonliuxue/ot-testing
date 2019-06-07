@@ -1,0 +1,15 @@
+1:
+  algo: TWAP
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 10
+    Price: 2
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12277
+      side: Buy
+    ValidSeconds: 300
+
