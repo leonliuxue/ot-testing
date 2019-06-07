@@ -87,7 +87,7 @@ def parse_fix_order_limit(msg, test_at):
   min_size = msg['MinSize']
   quantity = min_size
 
-  print([symbol, acc, side, order_type, tif, quantity])
+  #print([symbol, acc, side, order_type, tif, quantity])
   cmd = '''awk -F, '$1 >= "{}" && /35=D/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/ && /38={}/' < {}'''.format(
       test_at, symbol, acc, side, order_type, tif, quantity, FIX_LOG_FILE)
 
@@ -123,21 +123,21 @@ if __name__ == '__main__':
 
   with open(order_file.split('.')[0] + '_log.yml') as f:
     order_log = yaml.safe_load(f)
-    print(order_log)
+    #print(order_log)
 
   with open(order_file, 'r') as f:
     orders = yaml.safe_load(f)
-    print(orders)
+    #print(orders)
 
   test_cases_ok = []
   test_cases_nok = []
   test_results = {}
 
   for key, val in order_log.items():
-    print('Test case: {}'.format(key))
+    #print('Test case: {}'.format(key))
 
     msg = orders[key]['msg']
-    print('WS msg: {}'.format(msg))
+    #print('WS msg: {}'.format(msg))
 
     algo = orders[key]['algo']
     ret = ''
@@ -155,15 +155,17 @@ if __name__ == '__main__':
 
     if ret == '' or ret == 'NOK':
       test_cases_nok.append(key)
-      print('NOK')
+      #print('NOK')
       test_results[key] = {'result': 'NOK'}
     else:
       test_cases_ok.append(key)
-      print('OK')
+      #print('OK')
       test_results[key] = {'result': 'OK'}
+    print('{}. {} : {}'.format(ret, key, msg))
 
-  with open(TEST_RESULTS_FILE, 'w') as outfile:
+  test_result_file = order_file.split('.')[0] + '_results.yml'
+  with open(test_result_file, 'w') as outfile:
     yaml.dump(test_results, outfile, default_flow_style=False)
 
-  print('OK: {}'.format(test_cases_ok))
-  print('NOK: {}'.format(test_cases_nok))
+  #print('OK: {}'.format(test_cases_ok))
+  #print('NOK: {}'.format(test_cases_nok))

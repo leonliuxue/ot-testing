@@ -64,30 +64,24 @@
 
 17:
   algo: MANUAL
-  
   msg: ['order', 12295, 'SIM', 'Buy', 'market', 'OPG', 15, 1.3557, 0]
 
 18:
   algo: MANUAL
-  
   msg: ['order', 12295, 'SIM', 'Buy', 'market', 'IOC', 15, 1.3557, 0]
 
 19:
   algo: MANUAL
-  
   msg: ['order', 12295, 'SIM', 'Buy', 'market', 'FOK', 15, 1.3557, 0]
 
 20:
   algo: MANUAL
-  
   msg: ['order', 12295, 'SIM', 'Buy', 'market', 'GTX', 152, 1.3557, 0]
 
 21:
   algo: MANUAL
-  
   msg: ['order', 12295, 'SIM', 'Buy', 'market', 'GTD', 151, 1.3557, 0]
 
 22:
   algo: MANUAL
-  
   msg: ['order', 12273, 'SIM', 'Sell', 'market', 'Day', 10, 1.3557, 0]
