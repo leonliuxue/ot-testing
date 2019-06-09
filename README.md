@@ -17,22 +17,20 @@ python test_fix_orders.py manual_orders.yml
 
 # Test Execution Management Features
 ## Place New Order
-### Manual Order
-#### Market Order
-#### Limit Order
-### Algo Order
-#### TWAP
+- Market Order
+- Limit Order
+- TWAP
 ## Cancel Order
 
 # Test Order Management Features
-## Pending Orders
-## Rejects Orders
-## Trades (Filled Orders) 
-## Positions
-## Order Depths
-## Market Watch
-## PnL
-## Account 
+- Pending Orders
+- Rejects Orders
+- Trades (Filled Orders) 
+- Positions
+- Order Depths
+- Market Watch
+- PnL
+- Account 
 
 # Bug List (Potential)
 1. Test case 14: for GTD, FIX 59 should be 6 but not 0
