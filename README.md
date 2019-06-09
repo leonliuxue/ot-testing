@@ -4,10 +4,12 @@
 
 # Run Test Case
 Replace input argument to different test cases
-`
-python place_orders.py manual_orders.yml --> Wait until all test cases are executed. It will take several minutes depends on the order execution.
+
+~~~~
+python place_orders.py manual_orders.yml --> Wait until all test cases are executed. It will take several minutes depending on the order execution.
+
 python test_fix_orders.py manual_orders.yml
-`
+~~~~
 
 # FIX Message Test
 ## Place New Order
