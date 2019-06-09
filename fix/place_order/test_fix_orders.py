@@ -102,7 +102,6 @@ def test_twap_order(msg, test_at):
   out, err = subprocess.Popen(cmd, shell=True,
                               stdout=subprocess.PIPE).communicate()
 
-  #print(out)
   if out == '': return 'NOK'
 
   new_orders = out.strip().split('\n')
@@ -116,7 +115,7 @@ def test_twap_order(msg, test_at):
       return 'NOK'
   #print('Total new orders: {}'.format(total_quantity))
 
-  # Execution report
+  # Execution report. Order may be canceled.
   msg_type = '8'
   # 39: identifies current status of order. If field value = 4, this order is canceled
   order_status = '4'
@@ -129,6 +128,7 @@ def test_twap_order(msg, test_at):
 
   canceled_orders = out.strip().split('\n')
 
+  # Canceled order should not be counted into total quantity
   for o in canceled_orders:
     field_val = parse_fix_field(o, str(38))
     if field_val is not None:
@@ -181,26 +181,18 @@ if __name__ == '__main__':
 
   with open(order_file.split('.')[0] + '_log.yml') as f:
     order_log = yaml.safe_load(f)
-    #print(order_log)
 
   with open(order_file, 'r') as f:
     orders = yaml.safe_load(f)
-    #print(orders)
 
-  test_cases_ok = []
-  test_cases_nok = []
   test_results = {}
 
   for key, val in order_log.items():
-    #print('Test case: {}'.format(key))
-
     msg = orders[key]['msg']
-    #print('WS msg: {}'.format(msg))
-
     algo = orders[key]['algo']
-    ret = ''
     test_at = val['place_order_at']
 
+    ret = ''
     if algo == 'MANUAL':
       order_type = msg[4]
       if order_type == 'market':
@@ -210,19 +202,10 @@ if __name__ == '__main__':
     elif algo == 'TWAP':
       ret = test_twap_order(msg, test_at)
 
-    if ret == '' or ret == 'NOK':
-      test_cases_nok.append(key)
-      #print('NOK')
-      test_results[key] = {'result': 'NOK'}
-    else:
-      test_cases_ok.append(key)
-      #print('OK')
-      test_results[key] = {'result': 'OK'}
+    test_results[key] = {}
+    test_results[key]['result'] = ret
     print('{}. {} : {}'.format(ret, key, msg))
 
   test_result_file = order_file.split('.')[0] + '_results.yml'
   with open(test_result_file, 'w') as outfile:
     yaml.dump(test_results, outfile, default_flow_style=False)
-
-  #print('OK: {}'.format(test_cases_ok))
-  #print('NOK: {}'.format(test_cases_nok))

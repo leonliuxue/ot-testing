@@ -19,7 +19,6 @@ orders = {}
 total_executed = 0
 
 
-
 class DummyClient(WebSocketClient):
 
   def opened(self):
@@ -41,7 +40,8 @@ class DummyClient(WebSocketClient):
       if total_executed == len(order_logs):
         ws.close()
         exit()
-   
+
+
 def openWs():
   ws = DummyClient(WS_ADDRESS, protocols=['http-only'])
   ws.connect()
