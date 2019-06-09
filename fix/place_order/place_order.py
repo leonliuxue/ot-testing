@@ -14,6 +14,10 @@ WS_ADDRESS = 'ws://127.0.0.1:9217/ot/'
 TEST_LOG_FILE = 'test_log.yml'
 
 BROKER = {'103': 'sim'}
+order_logs = {}
+orders = {}
+total_executed = 0
+
 
 
 class DummyClient(WebSocketClient):
@@ -27,13 +31,14 @@ class DummyClient(WebSocketClient):
     pass
 
   def received_message(self, m):
+    global total_executed
     m = m.data.decode("utf-8")
 
     print(m)
     if 'teminated' in m:
-      print('total_excuted: {}'.format(total_executed))
       total_executed += 1
-      if total_executed == len(orders):
+      print('total_excuted: {}'.format(total_executed))
+      if total_executed == len(order_logs):
         ws.close()
         exit()
    
@@ -65,10 +70,6 @@ def place_order(ws, msg):
   print(cmd)
   ws.send(json.dumps(cmd))
 
-
-order_logs = {}
-orders = {}
-total_executed = 0
 
 if __name__ == '__main__':
   try:
