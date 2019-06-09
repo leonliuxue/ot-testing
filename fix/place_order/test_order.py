@@ -3,6 +3,7 @@ import os
 import sys
 import subprocess
 import yaml
+import re
 
 TEST_LOG_FILE = 'test_log.yml'
 FIX_LOG_FILE = '/home/xzzzx/opentrade/store/fix/FIX.4.2-ot-sim.messages.current.log'
@@ -41,8 +42,8 @@ with open('../../security.yml', 'r') as f:
 with open('test_cases.yml', 'r') as f:
   TEST_CASES_DICT = yaml.safe_load(f)
 
-with open(TEST_LOG_FILE, 'r') as f:
-  TEST_LOG = yaml.safe_load(f)
+#with open(TEST_LOG_FILE, 'r') as f:
+#  TEST_LOG = yaml.safe_load(f)
 
 
 def test_manual_market_order(msg, test_at):
@@ -77,26 +78,60 @@ def test_manual_limit_order(msg, test_at):
   return ret
 
 
-def parse_fix_order_limit(msg, test_at):
+def test_twap_order(msg, test_at):
   security = msg['Security']
   symbol = SECURITY_DICT[security['sec']]
   acc = security['acc'].lower()
   side = SIDE_DICT[security['side'].lower()]
+  quantity = security['qty']
+  min_size = msg['MinSize']
+  price = msg['Price']
+  valid_seconds = msg['ValidSeconds']
   order_type = TYPE_DICT['market']
   tif = TIF_DICT['day']
-  min_size = msg['MinSize']
-  quantity = min_size
 
-  #print([symbol, acc, side, order_type, tif, quantity])
+  #  print([test_at, symbol, acc, side, order_type, tif, min_size])
   cmd = '''awk -F, '$1 >= "{}" && /35=D/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/ && /38={}/' < {}'''.format(
-      test_at, symbol, acc, side, order_type, tif, quantity, FIX_LOG_FILE)
+      test_at, symbol, acc, side, order_type, tif, min_size, FIX_LOG_FILE)
 
   out, err = subprocess.Popen(cmd, shell=True,
                               stdout=subprocess.PIPE).communicate()
 
-  ret = 'NOK' if out == '' or err is not None else 'OK'
+  if out == '': return 'NOK'
 
-  return ret
+  out_lines = out.strip().split('\n')
+
+  total_quantity = 0
+
+  for line in out_lines:
+    field_val = parse_fix_field(line, str(38))
+
+    if field_val is not None:
+      total_quantity += int(field_val)
+    else:
+      return 'NOK'
+
+  #print(total_quantity)
+  if total_quantity != quantity:
+    return 'NOK'
+
+  return 'OK'
+
+
+def parse_fix_field(msg, field_no):
+  field_val_pairs = {}
+  #print(msg.split('\x01'))
+  for pair in msg.split('\x01'):
+    if pair != '':
+      field = pair.split('=')[0]
+      val = pair.split('=')[1]
+      field_val_pairs[field] = val
+  
+  #print(field_val_pairs)
+  if field_no in field_val_pairs:
+    return field_val_pairs[field_no]
+  else:
+    return None
 
 
 def convert_to_fix_fields(msg):
@@ -149,9 +184,8 @@ if __name__ == '__main__':
         ret = test_manual_market_order(msg, test_at)
       elif order_type == 'limit':
         ret = test_manual_limit_order(msg, test_at)
-    elif algo == 'TWAP' and (order_log_file == 'all'
-                             or order_log_file == 'limit'):
-      pass
+    elif algo == 'TWAP':
+      ret = test_twap_order(msg, test_at)
 
     if ret == '' or ret == 'NOK':
       test_cases_nok.append(key)

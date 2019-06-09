@@ -88,19 +88,10 @@ if __name__ == '__main__':
         }
       elif algo == 'TWAP':
         place_order_algo(ws, algo, msg)
-
-    #order_type = val['order_type']
-
-    #if order_type == 'limit':
-    #  algo = val['algo']
-    #  place_limit_order(ws, algo, msg)
-    #  test_log[key] = {
-    #      'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
-    #  }
-
-    #elif order_type == 'market':
-    #  place_order_market(ws, msg)
-    #  test_log[key] = {'test_at': datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3], }
+        order_logs[key] = {
+            'place_order_at':
+            datetime.utcnow().strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
+        }
 
     with open(order_file.split('.')[0] + '_log.yml', 'w') as outfile:
       yaml.dump(order_logs, outfile, default_flow_style=False)
