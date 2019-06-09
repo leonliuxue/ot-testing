@@ -87,31 +87,54 @@ def test_twap_order(msg, test_at):
   min_size = msg['MinSize']
   price = msg['Price']
   valid_seconds = msg['ValidSeconds']
-  order_type = TYPE_DICT['market']
+  if msg['Aggression'] == 'Highest':
+    order_type = TYPE_DICT['market']
+  else:
+    order_type = TYPE_DICT['limit']
   tif = TIF_DICT['day']
 
-  #  print([test_at, symbol, acc, side, order_type, tif, min_size])
-  cmd = '''awk -F, '$1 >= "{}" && /35=D/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/ && /38={}/' < {}'''.format(
-      test_at, symbol, acc, side, order_type, tif, min_size, FIX_LOG_FILE)
+  # New order single
+  msg_type = 'D'
+  # All FIX message for new ordersA
+  cmd = '''awk -F, '$1 >= "{}" && /35={}/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/' < {}'''.format(
+      test_at, msg_type, symbol, acc, side, order_type, tif, FIX_LOG_FILE)
 
   out, err = subprocess.Popen(cmd, shell=True,
                               stdout=subprocess.PIPE).communicate()
 
+  #print(out)
   if out == '': return 'NOK'
 
-  out_lines = out.strip().split('\n')
-
+  new_orders = out.strip().split('\n')
   total_quantity = 0
 
-  for line in out_lines:
+  for line in new_orders:
     field_val = parse_fix_field(line, str(38))
-
     if field_val is not None:
       total_quantity += int(field_val)
     else:
       return 'NOK'
+  #print('Total new orders: {}'.format(total_quantity))
 
-  #print(total_quantity)
+  # Execution report
+  msg_type = '8'
+  # 39: identifies current status of order. If field value = 4, this order is canceled
+  order_status = '4'
+  cmd = '''awk -F, '$1 >= "{}" && /35={}/ && /55={}/ && /56=ot/ && /54={}/ && /40={}/ && /59={}/ && /39={}/' < {}'''.format(
+      test_at, msg_type, symbol, side, order_type, tif, order_status,
+      FIX_LOG_FILE)
+
+  out, err = subprocess.Popen(cmd, shell=True,
+                              stdout=subprocess.PIPE).communicate()
+
+  canceled_orders = out.strip().split('\n')
+
+  for o in canceled_orders:
+    field_val = parse_fix_field(o, str(38))
+    if field_val is not None:
+      total_quantity -= int(field_val)
+
+  #print('Total executed orders: {}'.format(total_quantity))
   if total_quantity != quantity:
     return 'NOK'
 
@@ -126,7 +149,7 @@ def parse_fix_field(msg, field_no):
       field = pair.split('=')[0]
       val = pair.split('=')[1]
       field_val_pairs[field] = val
-  
+
   #print(field_val_pairs)
   if field_no in field_val_pairs:
     return field_val_pairs[field_no]
