@@ -27,44 +27,16 @@ class DummyClient(WebSocketClient):
     pass
 
   def received_message(self, m):
-    return
-
     m = m.data.decode("utf-8")
-    if m[2, 7] != 'order' and m[2, 6] != 'algo': return
+
     print(m)
-
-    m = ast.literal_eval(m.strip())
-    #print(m)
-    m = [i.strip() for i in m]
-    if m[0] == 'order':
-      if m[4] == 'unconfirmed':
-        sec = m[5]
-        acc = BROKER[m[8]]
-        side = m[12]
-        for key, order in orders.items():
-          security = order['msg']['Security']
-          if sec == security['sec'] and acc == security['acc'].lower(
-          ) and side == security['side'].lower():
-            if 'child_orders' not in order_logs[key]:
-              order_logs[key]['child_orders'][m[1]] = {
-                  'order_status': ['unconfirmed']
-              }
-      else:
-        order_id = m[1]
-        for key, log in order_logs.items():
-          child_orders = log['child_orders']
-          for child_order in child_orders:
-            if order_id == child_order['order_id']:
-              order_logs[key]
-
-    elif m[0] == 'algo' and m[6] == 'iterminated':
+    if 'teminated' in m:
+      print('total_excuted: {}'.format(total_executed))
       total_executed += 1
       if total_executed == len(orders):
-        with open(order_file.split('.')[0] + '_log.yml', 'w') as outfile:
-          yaml.dump(order_logs, outfile, default_flow_style=False)
+        ws.close()
         exit()
-
-
+   
 def openWs():
   ws = DummyClient(WS_ADDRESS, protocols=['http-only'])
   ws.connect()
@@ -126,15 +98,16 @@ if __name__ == '__main__':
         #}
       elif algo == 'TWAP':
         place_order_algo(ws, algo, msg)
-      
+
       order_logs[key] = {
-            'place_order_at':
-            (datetime.utcnow() - timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
-        }
+          'place_order_at':
+          (datetime.utcnow() -
+           timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
+      }
 
     with open(order_file.split('.')[0] + '_log.yml', 'w') as outfile:
       yaml.dump(order_logs, outfile, default_flow_style=False)
 
-    #ws.run_forever()
+    ws.run_forever()
   except KeyboardInterrupt:
     ws.close()
