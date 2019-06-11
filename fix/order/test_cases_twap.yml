@@ -1,121 +1,135 @@
-0:
-  algo: TWAP
-  msg:
-    Aggression: High
-    InternalCross: None
-    MaxPov: 0
-    MinSize: 10
-    Price: 10
-    Security: 
-      acc: SIM
-      qty: 20
-      sec: 12273
-      side: Buy
-    ValidSeconds: 100
-0:
-  algo: TWAP
-  msg:
-    Aggression: Highest
-    InternalCross: None
-    MaxPov: 0
-    MinSize: 10
-    Price: 10
-    Security: 
-      acc: SIM
-      qty: 20
-      sec: 12295
-      side: Buy
-    ValidSeconds: 300
-0:
-  algo: TWAP
-  msg:
-    Aggression: Highest
-    InternalCross: None
-    MaxPov: 0
-    MinSize: 9
-    Price: 10
-    Security: 
-      acc: SIM
-      qty: 20
-      sec: 12279
-      side: Buy
-    ValidSeconds: 300
-0:
-  algo: TWAP
-  msg:
-    Aggression: Highest
-    InternalCross: None
-    MaxPov: 0
-    MinSize: 9
-    Price: 10
-    Security: 
-      acc: SIM
-      qty: 20
-      sec: 12285
-      side: Buy
-    ValidSeconds: 300
-0:
-  algo: TWAP
-  msg:
-    Aggression: High
-    InternalCross: None
-    MaxPov: 0
-    MinSize: 10
-    Price: 10
-    Security: 
-      acc: SIM
-      qty: 20
-      sec: 12273
-      side: Sell
-    ValidSeconds: 100
-0:
-  algo: TWAP
-  msg:
-    Aggression: Highest
-    InternalCross: None
-    MaxPov: 0
-    MinSize: 10
-    Price: 10
-    Security: 
-      acc: SIM
-      qty: 20
-      sec: 12295
-      side: Sell
-    ValidSeconds: 300
-0:
-  algo: TWAP
-  msg:
-    Aggression: Highest
-    InternalCross: None
-    MaxPov: 0
-    MinSize: 9
-    Price: 10
-    Security: 
-      acc: SIM
-      qty: 20
-      sec: 12279
-      side: Sell
-    ValidSeconds: 300
-0:
-  algo: TWAP
-  msg:
-    Aggression: Highest
-    InternalCross: None
-    MaxPov: 0
-    MinSize: 9
-    Price: 10
-    Security: 
-      acc: SIM
-      qty: 20
-      sec: 12285
-      side: Sell
-    ValidSeconds: 300
 1:
+  algo: TWAP
+  msg:
+    Aggression: High
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 10
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12273
+      side: Buy
+    ValidSeconds: 100
+2:
+  algo: TWAP
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 10
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12295
+      side: Buy
+    ValidSeconds: 300
+3:
+  algo: TWAP
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 9
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12279
+      side: Buy
+    ValidSeconds: 300
+4:
+  algo: TWAP
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 9
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12285
+      side: Buy
+    ValidSeconds: 300
+5:
+  algo: TWAP
+  msg:
+    Aggression: High
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 10
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12273
+      side: Sell
+    ValidSeconds: 100
+6:
+  algo: TWAP
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 10
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12295
+      side: Sell
+    ValidSeconds: 300
+7:
+  algo: TWAP
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 9
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12279
+      side: Sell
+    ValidSeconds: 300
+8:
+  algo: TWAP
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 0
+    MinSize: 9
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12285
+      side: Sell
+    ValidSeconds: 300
+9:
   algo: TWAP
   msg:
     Aggression: Highest
     InternalCross: None
     MaxPov: 0.5
+    MinSize: 9
+    Price: 10
+    Security: 
+      acc: SIM
+      qty: 20
+      sec: 12278
+      side: Sell
+    ValidSeconds: 300
+10:
+  algo: TWAP
+  msg:
+    Aggression: Highest
+    InternalCross: None
+    MaxPov: 1.5
     MinSize: 9
     Price: 10
     Security: 

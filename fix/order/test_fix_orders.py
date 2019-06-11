@@ -39,8 +39,8 @@ TYPE_DICT = {
 with open('../../security.yml', 'r') as f:
   SECURITY_DICT = yaml.safe_load(f)
 
-with open('test_cases.yml', 'r') as f:
-  TEST_CASES_DICT = yaml.safe_load(f)
+#with open('test_cases.yml', 'r') as f:
+#  TEST_CASES_DICT = yaml.safe_load(f)
 
 #with open(TEST_LOG_FILE, 'r') as f:
 #  TEST_LOG = yaml.safe_load(f)
