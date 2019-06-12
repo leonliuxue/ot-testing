@@ -68,36 +68,17 @@ def place_order(ws, msg):
 ws = None
 if __name__ == '__main__':
   try:
-    if len(sys.argv) == 1:
-      print('Error. Test case yaml file should be input argument.')
-      exit()
-
-    order_file = sys.argv[1]
-    with open(order_file, 'r') as f:
-      orders = yaml.safe_load(f)
-
     ws = login()
 
-    for key, val in orders.items():
-      if key == 0:
-        continue
+    if len(sys.argv) == 1:
+      print('Error. Order id should be input argument.')
+      exit()
 
-      algo = val['algo']
-      msg = val['msg']
+    order_id = sys.argv[1]
+    msg = ['algo', 'cancel', int(order_id)]
+    print(msg)
 
-      if algo == 'MANUAL':
-        place_order(ws, msg)
-      elif algo == 'TWAP':
-        action = val['action']
-        place_order_algo(ws, algo, action, msg)
-
-      place_order_at = (
-          datetime.utcnow() -
-          timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
-      order_logs[key] = {'place_order_at': place_order_at}
-
-    with open(order_file.split('.')[0] + '_log.yml', 'w') as outfile:
-      yaml.dump(order_logs, outfile, default_flow_style=False)
+    ws.send(json.dumps(msg))
 
     ws.run_forever()
   except KeyboardInterrupt:
