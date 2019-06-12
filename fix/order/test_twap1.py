@@ -40,89 +40,6 @@ with open('../../security.yml', 'r') as f:
   SECURITY_DICT = yaml.safe_load(f)
 
 
-def test_manual_market_order(msg, test_at):
-  symbol = SECURITY_DICT[msg[1]]
-  acc, side, order_type, tif, quantity = convert_to_fix_fields(msg)
-
-  cmd = '''awk -F, '$1 >= "{}" && /35=D/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/ && /38={}/' < {}'''.format(
-      test_at, symbol, acc, side, order_type, tif, quantity, FIX_LOG_FILE)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
-  ret = 'NOK' if out == '' or err is not None else 'OK'
-
-  return ret
-
-
-def test_manual_limit_order(msg, test_at):
-  symbol = SECURITY_DICT[msg[1]]
-  acc, side, order_type, tif, quantity = convert_to_fix_fields(msg)
-
-  cmd = '''awk -F, '$1 >= "{}" && /35=D/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/ && /38={}/' < {}'''.format(
-      test_at, symbol, acc, side, order_type, tif, quantity, FIX_LOG_FILE)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
-  ret = 'NOK' if out == '' or err is not None else 'OK'
-
-  return ret
-
-
-def test_twap_order(msg, test_at):
-  security = msg['Security']
-  symbol = SECURITY_DICT[security['sec']]
-  acc = security['acc'].lower()
-  side = SIDE_DICT[security['side'].lower()]
-  quantity = security['qty']
-  min_size = msg['MinSize']
-  price = msg['Price']
-  valid_seconds = msg['ValidSeconds']
-  if msg['Aggression'] == 'Highest':
-    order_type = TYPE_DICT['market']
-  else:
-    order_type = TYPE_DICT['limit']
-  tif = TIF_DICT['day']
-
-  # New order single
-  msg_type = 'D'
-  # All FIX message for new ordersA
-  cmd = '''awk -F, '$1 >= "{}" && /35={}/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/' < {}'''.format(
-      test_at, msg_type, symbol, acc, side, order_type, tif, FIX_LOG_FILE)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
-  if out == '': return 'NOK'
-
-  total_quantity = 0
-
-  new_orders = out.strip().split('\n')
-  for line in new_orders:
-    field_val = parse_fix_field(line, str(38))
-    if field_val is not None:
-      total_quantity += int(field_val)
-  # print('Total new orders: {}'.format(total_quantity))
-
-  # Execution report. Order may be canceled.
-  msg_type = '8'
-  # 39: identifies current status of order. If field value = 4, this order is canceled
-  order_status = '4'
-  cmd = '''awk -F, '$1 >= "{}" && /35={}/ && /55={}/ && /56=ot/ && /54={}/ && /40={}/ && /59={}/ && /39={}/' < {}'''.format(
-      test_at, msg_type, symbol, side, order_type, tif, order_status,
-      FIX_LOG_FILE)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
-
-  canceled_orders = out.strip().split('\n')
-  # Canceled order should not be counted into total quantity
-  for o in canceled_orders:
-    field_val = parse_fix_field(o, str(38))
-    if field_val is not None:
-      total_quantity -= int(field_val)
-
-  # print('Total executed orders: {}'.format(total_quantity))
-  if total_quantity != quantity:
-    return 'NOK'
-
-  return 'OK'
-
-
 def get_fix_msg(msg_type, order_id):
   # New order single
   # msg_type = 'D'
@@ -150,20 +67,6 @@ def parse_fix_field(msg, field_no):
     return field_val_pairs[field_no]
   else:
     return None
-
-
-def convert_to_fix_fields(msg):
-  acc = msg[2].lower()
-
-  side = SIDE_DICT[msg[3].lower()]
-
-  order_type = TYPE_DICT[msg[4]]
-
-  tif = TIF_DICT[msg[5].lower()]
-
-  quantity = str(msg[6])
-
-  return [acc, side, order_type, tif, quantity]
 
 
 if __name__ == '__main__':
