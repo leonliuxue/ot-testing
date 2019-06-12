@@ -53,8 +53,8 @@ def login():
   return ws
 
 
-def place_order_algo(ws, algo, msg):
-  cmd = ['algo', 'new', algo, str(uuid.uuid4()), msg]
+def place_order_algo(ws, algo, action, msg):
+  cmd = ['algo', action, algo, str(uuid.uuid4()), msg]
   print(cmd)
   ws.send(json.dumps(cmd))
 
@@ -88,7 +88,8 @@ if __name__ == '__main__':
       if algo == 'MANUAL':
         place_order(ws, msg)
       elif algo == 'TWAP':
-        place_order_algo(ws, algo, msg)
+        action = val['action']
+        place_order_algo(ws, algo, action, msg)
 
       place_order_at = (datetime.utcnow() -
                         timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')[:-3],
