@@ -1,5 +1,6 @@
 1:
   algo: TWAP
+  action: new
   msg:
     Aggression: High
     InternalCross: None
@@ -14,6 +15,7 @@
     ValidSeconds: 100
 2:
   algo: TWAP
+  action: new
   msg:
     Aggression: Highest
     InternalCross: None
@@ -28,6 +30,7 @@
     ValidSeconds: 300
 3:
   algo: TWAP
+  action: new
   msg:
     Aggression: Highest
     InternalCross: None
@@ -42,6 +45,7 @@
     ValidSeconds: 300
 4:
   algo: TWAP
+  action: new
   msg:
     Aggression: Highest
     InternalCross: None
@@ -56,6 +60,7 @@
     ValidSeconds: 300
 5:
   algo: TWAP
+  action: new
   msg:
     Aggression: High
     InternalCross: None
@@ -70,6 +75,7 @@
     ValidSeconds: 100
 6:
   algo: TWAP
+  action: new
   msg:
     Aggression: Highest
     InternalCross: None
@@ -84,6 +90,7 @@
     ValidSeconds: 300
 7:
   algo: TWAP
+  action: new
   msg:
     Aggression: Highest
     InternalCross: None
@@ -98,6 +105,7 @@
     ValidSeconds: 300
 8:
   algo: TWAP
+  action: new
   msg:
     Aggression: Highest
     InternalCross: None
@@ -112,6 +120,7 @@
     ValidSeconds: 300
 9:
   algo: TWAP
+  action: new
   msg:
     Aggression: Highest
     InternalCross: None
@@ -126,6 +135,7 @@
     ValidSeconds: 300
 10:
   algo: TWAP
+  action: new
   msg:
     Aggression: Highest
     InternalCross: None
