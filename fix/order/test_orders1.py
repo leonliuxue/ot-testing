@@ -186,7 +186,7 @@ if __name__ == '__main__':
       exec_tm = tokens[3]
 
       print('Algo id: {}'.format(algo_id))
-    
+
       quantity = None
       m = re.search(r'qty\\(.+?),', line)
       if m:
@@ -220,5 +220,3 @@ if __name__ == '__main__':
         print('NOK')
 
   exit()
-
-  
