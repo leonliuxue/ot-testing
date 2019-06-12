@@ -9,9 +9,9 @@
 Replace input argument to different test cases.
 
 ~~~~
-python place_orders.py manual_orders.yml --> Wait until all test cases are executed. It will take several minutes depending on the order execution.
+./place_orders.py orders_manual_market --> Wait until all test cases are executed. It will take several minutes depending on the order execution.
 
-python test_fix_orders.py manual_orders.yml
+./test_manual.py orders_manual.yml
 ~~~~
 
 
