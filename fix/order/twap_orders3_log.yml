@@ -1,3 +1,5 @@
-1:
-  place_order_at: !!python/tuple
-  - 20190612-10:58:17.122
+["algo",1513,1374,1560341811,"15d5fb4e-898a-4064-a410-40b0806c3c79","TWAP","new","{\"Aggression\":\"Highest\",\"InternalCross\":\"None\",\"MaxPov\":0.5,\"MinSize\":9,\"Price\":1,\"Security\":{\"acc\":\"SIM\",\"qty\":20,\"sec\":12278,\"side\":\"Buy\"},\"ValidSeconds\":300}"]
+["order",44593704,1560341811,18506,"unconfirmed",12278,1374,100,103,101,9.0,6.845,"buy","market","Day"]
+["order",44593704,1560341811,18507,"pending"]
+["order",44593704,1560341811,18508,"new","SIM-44593704"]
+["order",44593704,1560341811,18509,"filled",9.0,6.8485,"b8357c8b-cd3e-4929-802b-d830fdc449f3","new"]
