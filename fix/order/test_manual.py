@@ -5,9 +5,7 @@ import sys
 import yaml
 import re
 
-TEST_LOG_FILE = 'test_log.yml'
 FIX_LOG_FILE = '/home/xzzzx/opentrade/store/fix/FIX.4.2-ot-sim.messages.current.log'
-TEST_RESULTS_FILE = 'test_results.yml'
 
 TIF_DICT = {
     'day': '0',
@@ -75,24 +73,41 @@ if __name__ == '__main__':
   with open(order_file + '.log') as f:
     log_lines = f.readlines()
 
-  for _line in log_lines:
-    if 'order' in _line and 'unconfirmed' in _line:
-      tokens = _line.strip()[1:-1].split(',')
-      _order_id = tokens[1]
-      _quantity = float(tokens[10])
+  for line in log_lines:
+    if 'order' in line and 'unconfirmed' in line:
+      tokens = line.strip()[1:-1].split(',')
+      order_id = tokens[1]
+      quantity = float(tokens[10])
+      side = SIDE_DICT[tokens[12][1:-1].lower()]
+      order_type = TYPE_DICT[tokens[13][1:-1].lower()]
+      tif = TIF_DICT[tokens[14][1:-1].lower()]
 
-      for __line in log_lines:
-        if 'order' in __line and 'new' in __line and 'filled' not in __line:
-          tokens = __line.strip()[1:-1].split(',')
-          __order_id = tokens[1]
+      for _line in log_lines:
+        if 'order' in _line and 'new' in _line and 'filled' not in _line:
+          tokens = _line.strip()[1:-1].split(',')
+          _order_id = tokens[1]
 
-          if __order_id != _order_id: continue
+          if _order_id != order_id: continue
 
-          fix_msg = get_fix_msg('D', __order_id)
-          __quantity = float(parse_fix_field(fix_msg, str(38)))
+          fix_msg = get_fix_msg('D', _order_id)
+          if fix_msg == '':
+            print(
+                '{}: NOK. Expected side: {}. Actual side: {}'.format(order_id))
+          _quantity = float(parse_fix_field(fix_msg, '38'))
+          if _quantity != quantity:
+            print(
+                '{}: NOK. Expected side: {}. Actual side: {}'.format(order_id))
+          _side = parse_fix_field(fix_msg, '54')
+          if _side != side:
+            print('{}: NOK. Expected side: {}. Actual side: {}'.format(
+                order_id, side, _side))
+          _order_type = parse_fix_field(fix_msg, '40')
+          if _order_type != order_type:
+            print('{}: NOK. Expected side: {}. Actual side: {}'.format(
+                order_id, order_type, _order_type))
+          _tif = parse_fix_field(fix_msg, '59')
+          if _tif != tif:
+            print('{}: NOK. Expected side: {}. Actual side: {}'.format(
+                order_id, tif, _tif))
 
-          #print([__quantity, _quantity])
-          if __quantity != _quantity:
-            print('{}: NOK'.format(_order_id))
-          else:
-            print('{}: OK'.format(_order_id))
+          print('{}: OK'.format(order_id))
