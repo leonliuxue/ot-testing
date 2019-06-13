@@ -1,3 +1,6 @@
+# OpenTrade
+This test project is for OpenTrade: https://github.com/opentradesolutions/opentrade
+
 # Methodology
 - Call OpenTrade (OT) API via Python Websocket. e.g. Place new order, check positions/trades, etc.
 - Check QuickFix FIX log files to test the correctness of execution. e.g. New order, cancel order, pending order, etc.
