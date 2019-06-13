@@ -15,7 +15,8 @@ BROKER = {'103': 'sim'}
 order_logs = {}
 orders = {}
 total_executed = 0
-
+algo_no = 0
+algos = {}
 
 class DummyClient(WebSocketClient):
 
@@ -35,11 +36,11 @@ class DummyClient(WebSocketClient):
     if 'algo' in m and ('teminated' in m or 'failed' in m):
       total_executed += 1
       print('total_excuted: {}'.format(total_executed))
-      if total_executed == len(order_logs):
+      if total_executed == algo_no:
         ws.close()
         exit()
 
-    if ('algo' in m and 'done' not in m) or ('order' in m and 'done' not in m):
+    if ('\"order\"' in m or '\"algo\"' in m )and 'done' not in m :
       log_file_handler.write(m)
       log_file_handler.write('\n')
       log_file_handler.flush()
@@ -124,9 +125,10 @@ if __name__ == '__main__':
       algo = val['algo']
       action = val['action'].lower()
       msg = val['msg']
-      sec = msg['Security']['sec']
+      #sec = msg['Security']['sec']
       #cancel_all_orders(ws, sec)
       #time.sleep(5)
+      #algos[key] = {'orders':[]}
 
       if algo == 'manual':
         if action == 'new':
@@ -137,6 +139,7 @@ if __name__ == '__main__':
       elif algo == 'TWAP':
         action = val['action']
         if action == 'new':
+          algo_no += 1
           place_order_algo(ws, algo, action, msg)
         elif action == 'cancel':
           time.sleep(5)
