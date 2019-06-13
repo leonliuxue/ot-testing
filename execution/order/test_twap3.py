@@ -136,7 +136,7 @@ if __name__ == '__main__':
               'quantity': float(_quantity),
               'order_type': _order_type
           }
-  print(algos)
+  #print(algos)
   #exit()
 
   for key, val in algos.items():
