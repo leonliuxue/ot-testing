@@ -107,6 +107,7 @@ if __name__ == '__main__':
           if _order_id != order_id: continue
           fix_msg = get_fix_msg([('35', 'D'), ('11', _order_id)])
           _quantity = parse_fix_field(fix_msg, str(38))
+          #print(fix_msg)
           _order_type = parse_fix_field(fix_msg, '40')
           algos[algo_id]['new_orders'][order_id] = {
               'tm': int(_tm),
