@@ -59,7 +59,6 @@ def parse_fix_field(msg, field_no):
   else:
     return None
 
-  
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
@@ -125,7 +124,6 @@ if __name__ == '__main__':
   #print(algos)
   #exit()
 
-  
   for key, val in algos.items():
     #print(val)
     algo_id = key

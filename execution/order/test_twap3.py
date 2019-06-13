@@ -59,7 +59,6 @@ def parse_fix_field(msg, field_no):
   else:
     return None
 
-  
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
@@ -109,7 +108,11 @@ if __name__ == '__main__':
           fix_msg = get_fix_msg([('35', 'D'), ('11', _order_id)])
           _quantity = parse_fix_field(fix_msg, str(38))
           _order_type = parse_fix_field(fix_msg, '40')
-          algos[algo_id]['new_orders'][order_id] = {'tm':int(_tm), 'quantity': float(_quantity), 'order_type': _order_type}
+          algos[algo_id]['new_orders'][order_id] = {
+              'tm': int(_tm),
+              'quantity': float(_quantity),
+              'order_type': _order_type
+          }
 
       for _line in log_lines:
         if 'order' in _line and 'filled' in _line:
@@ -117,7 +120,7 @@ if __name__ == '__main__':
           _order_id = tokens[1]
           _quantity = float(tokens[5])
           _tm = int(tokens[2])
-          algos[algo_id]['filled_orders'][order_id] = {'quantity': float(_quantity), 'tm':_tm}
+          algos[algo_id]['filled_orders'][order_id] = {'quantity': float(_quantity), 'tm': _tm}
 
       for _line in log_lines:
         if 'order' in _line and 'cancelled' in _line:
@@ -128,11 +131,14 @@ if __name__ == '__main__':
           fix_msg = get_fix_msg([('35', 'F'), ('41', _order_id)])
           _quantity = parse_fix_field(fix_msg, str(38))
           _order_type = parse_fix_field(fix_msg, '40')
-          algos[algo_id]['cancelled_orders'][order_id] = {'tm':_tm,'quantity': float(_quantity), 'order_type': _order_type}
+          algos[algo_id]['cancelled_orders'][order_id] = {
+              'tm': _tm,
+              'quantity': float(_quantity),
+              'order_type': _order_type
+          }
   print(algos)
   #exit()
 
-  
   for key, val in algos.items():
     #print(val)
     algo_id = key
@@ -148,7 +154,7 @@ if __name__ == '__main__':
     quantity = val['quantity']
     aggression = val['aggression']
     filled_quantity = 0
-    
+
     #for _key, _val in new_orders.items():
     #  fix_quantity += _val['quantity']
     #  order_type = _val['order_type']
@@ -156,18 +162,17 @@ if __name__ == '__main__':
     #    print('{:3s},{},Expected order_type:{} Actual order_type:{}'.format('NOK', order_type, _order_type, _quantity))
     #    continue
 
-   
     valid_seconds = val['valid_seconds']
     for _key, _val in filled_orders.items():
       _tm = _val['tm']
       __tm = new_orders[_key]['tm']
-      if (_tm - __tm) > valid_seconds: 
-         print('{:3s},{},{}'.format('NOK', _key, 'Valid seconds error'))
-         continue
+      if (_tm - __tm) > valid_seconds:
+        print('{:3s},{},{}'.format('NOK', _key, 'Valid seconds error'))
+        continue
       filled_quantity += _val['quantity']
-    
+
     # TODO: filled quantity should be equal or less than total quantity
-    if filled_quantity > quantity: 
+    if filled_quantity > quantity:
       print('{:3s},{},{}'.format('NOK', _key, 'Filled quantity error'))
       continue
 
@@ -179,6 +184,5 @@ if __name__ == '__main__':
       if _quantity != _new_order['quantity'] or _order_type != _new_order['order_type']:
         print('{:3s},{},{}'.format('NOK', _key, 'Cancelled order error'))
         continue
-      
- 
+
     print('{:3s},{}'.format('OK', algo_id))

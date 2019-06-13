@@ -94,10 +94,12 @@ def cancel_orders(ws):
       print(msg)
       ws.send(json.dumps(msg))
 
+
 def cancel_all_orders(ws, sec):
   msg = ['algo', 'cancel_all', int(sec), 'SIM']
   print(msg)
   ws.send(json.dumps(msg))
+
 
 ws = None
 order_log_file = None
