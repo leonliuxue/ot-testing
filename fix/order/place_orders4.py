@@ -39,7 +39,7 @@ class DummyClient(WebSocketClient):
         ws.close()
         exit()
 
-    if ('\"algo\"' in m and 'done' not in m) or ('\"order\"' in m and 'done' not in m):
+    if ('algo' in m and 'done' not in m) or ('order' in m and 'done' not in m):
       log_file_handler.write(m)
       log_file_handler.write('\n')
       log_file_handler.flush()
@@ -123,8 +123,8 @@ if __name__ == '__main__':
       action = val['action'].lower()
       msg = val['msg']
       sec = msg['Security']['sec']
-      cancel_all_orders(ws, sec)
-      time.sleep(5)
+      #cancel_all_orders(ws, sec)
+      #time.sleep(5)
 
       if algo == 'manual':
         if action == 'new':

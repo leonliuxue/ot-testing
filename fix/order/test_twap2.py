@@ -89,7 +89,7 @@ if __name__ == '__main__':
         aggression = m.group(1).split(':')[1][2:-2]
       algos[algo_id]['aggression'] = aggression
 
-  print(algos)
+  #print(algos)
   # exit()
   for line in log_lines:
     if 'order' in line and 'unconfirmed' in line:
@@ -122,7 +122,7 @@ if __name__ == '__main__':
           _quantity = parse_fix_field(fix_msg, str(38))
           _order_type = parse_fix_field(fix_msg, '40')
           algos[algo_id]['cancelled_orders'][order_id] = {'quantity': float(_quantity), 'order_type': _order_type}
-  print(algos)
+  #print(algos)
   #exit()
 
   
