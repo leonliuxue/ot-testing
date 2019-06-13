@@ -71,15 +71,20 @@ if __name__ == '__main__':
     ws = login()
 
     if len(sys.argv) == 1:
-      print('Error. Order id should be input argument.')
+      print('Error. Algo id should be input argument.')
       exit()
 
-    order_id = sys.argv[1]
-    msg = ['algo', 'cancel', int(order_id)]
+    if sys.argv[1] == 'algo':
+      msg = ['algo', 'cancel', int(sys.argv[3])]
+    elif sys.argv[1] == 'cancel':
+      msg = ['cancel', int(sys.argv[2])]
+    else:
+      print('Error msg: {}'.format(sys.argv))
+      exit()
+
     print(msg)
 
     ws.send(json.dumps(msg))
 
-    ws.run_forever()
   except KeyboardInterrupt:
     ws.close()
