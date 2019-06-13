@@ -38,6 +38,25 @@ def get_fix_msg(msg_type, order_id):
   return out
 
 
+def get_fix_msg1(field_pairs):
+  # New order single
+  # msg_type = 'D'
+  # All FIX message for new ordersA
+  cs = []
+  for field in field_pairs:
+    c = '/{}={}/'.format(field[0], field[1])
+    cs.append(c)
+  css = '&&'.join(cs)
+  #print(css)
+
+  #cmd = '''tail -10000 {} | awk '/35={}/ && /11={}/' '''.format(FIX_LOG_FILE, msg_type, order_id)
+  cmd = '''tail -10000 {} | awk '{}' '''.format(FIX_LOG_FILE, css)
+  #print(cmd)
+  out, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()
+
+  return out.strip()
+
+
 def parse_fix_field(msg, field_no):
   field_val_pairs = {}
 
@@ -80,25 +99,26 @@ if __name__ == '__main__':
 
           if _order_id != order_id: continue
 
-          fix_msg = get_fix_msg('D', _order_id)
+          fix_msg = get_fix_msg1([('35', 'D'), ('11', _order_id)])
           if fix_msg == '':
-            print('{},NOK,FIX msg has not found'.format(order_id))
+            print('{:3s},{},{:6s},FIX msg has not found'.format('NOK', order_id, 'Cancel'))
             continue
           _quantity = float(parse_fix_field(fix_msg, '38'))
           if _quantity != quantity:
-            print('{}: NOK. Expected side: {}. Actual side: {}'.format(order_id, quantity, _quantity))
+            print('{:3s},{},Expected quantity:{} Actual quantity:{}'.format('NOK', order_id, quantity, _quantity))
             continue
           _side = parse_fix_field(fix_msg, '54')
           if _side != side:
-            print('{}: NOK. Expected side: {}. Actual side: {}'.format(order_id, side, _side))
+            print('{}: NOK. Expected side:{}. Actual side:{}'.format('NOK', order_id, side, _side))
             continue
           _order_type = parse_fix_field(fix_msg, '40')
           if _order_type != order_type:
-            print('{}: NOK. Expected side: {}. Actual side: {}'.format(order_id, order_type, _order_type))
+            print('{}: NOK. Expected order type:{}. Actual order type:{}'.format('NOK', order_id, order_type,
+                                                                                 _order_type))
             continue
           _tif = parse_fix_field(fix_msg, '59')
           if _tif != tif:
-            print('{}: NOK. Expected side: {}. Actual side: {}'.format(order_id, tif, _tif))
+            print('{:3s},{},Expected tif:{} Actual tif:{}'.format('NOK', order_id, tif, _tif))
             continue
 
           print('{:3s},{},{:6s}'.format('OK', order_id, 'New'))
@@ -106,29 +126,27 @@ if __name__ == '__main__':
       for _line in log_lines:
         if 'order' in _line and 'cancelled' in _line:
           tokens = _line.strip()[1:-1].split(',')
-          _order_id = tokens[1]
+          _orig_order_id = tokens[1]
 
-          if _order_id != order_id: continue
+          if _orig_order_id != order_id: continue
 
-          fix_msg = get_fix_msg('F', _order_id)
+          fix_msg = get_fix_msg1([('35', 'F'), ('41', _orig_order_id)])
+
           if fix_msg == '':
             print('{:3s},{},{:6s},FIX msg has not found'.format('NOK', order_id, 'Cancel'))
             continue
           _quantity = float(parse_fix_field(fix_msg, '38'))
           if _quantity != quantity:
-            print('{}: NOK. Expected side: {}. Actual side: {}'.format(order_id, quantity, _quantity))
+            print('{:3s},{},Expected quantity:{} Actual quantity:{}'.format('NOK', order_id, quantity, _quantity))
             continue
           _side = parse_fix_field(fix_msg, '54')
           if _side != side:
-            print('{}: NOK. Expected side: {}. Actual side: {}'.format(order_id, side, _side))
+            print('{}: NOK. Expected side:{}. Actual side:{}'.format('NOK', order_id, side, _side))
             continue
           _order_type = parse_fix_field(fix_msg, '40')
           if _order_type != order_type:
-            print('{}: NOK. Expected side: {}. Actual side: {}'.format(order_id, order_type, _order_type))
-            continue
-          _tif = parse_fix_field(fix_msg, '59')
-          if _tif != tif:
-            print('{}: NOK. Expected side: {}. Actual side: {}'.format(order_id, tif, _tif))
+            print('{}: NOK. Expected order type:{}. Actual order type:{}'.format('NOK', order_id, order_type,
+                                                                                 _order_type))
             continue
 
-          print('{:3s} ,{},{:6s}'.format('OK', order_id, 'Cancel'))
+          print('{:3s},{},{:6s}'.format('OK', order_id, 'Cancel'))
