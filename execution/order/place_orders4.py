@@ -18,6 +18,7 @@ total_executed = 0
 algo_no = 0
 algos = {}
 
+
 class DummyClient(WebSocketClient):
 
   def opened(self):
@@ -40,7 +41,7 @@ class DummyClient(WebSocketClient):
         ws.close()
         exit()
 
-    if ('\"order\"' in m or '\"algo\"' in m )and 'done' not in m :
+    if ('\"order\"' in m or '\"algo\"' in m) and 'done' not in m:
       log_file_handler.write(m)
       log_file_handler.write('\n')
       log_file_handler.flush()
