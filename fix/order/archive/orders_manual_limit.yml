@@ -1,0 +1,177 @@
+1:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Sell', 'limit', 'Day', 10, 1.3557, 0]
+
+2:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Sell', 'limit', 'Day', 100, 1.3557, 0]
+
+3:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Buy', 'limit', 'Day', 10, 1.3557, 0]
+
+4:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Buy', 'limit', 'Day', 100, 1.3557, 0]
+
+5:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'limit', 'Day', 10, 1.3557, 0]
+
+6:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'limit', 'Day', 100, 1.3557, 0]
+
+7:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'Day', 10, 1.3557, 0]
+
+8:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'Day', 100, 1.3557, 0]
+
+9:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'limit', 'GTC', 15, 1.3557, 0]
+
+10:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'limit', 'OPG', 15, 1.3557, 0]
+
+11:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'limit', 'IOC', 15, 1.3557, 0]
+
+12:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'limit', 'FOK', 15, 1.3557, 0]
+
+13:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'limit', 'GTX', 152, 1.3557, 0]
+
+14:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'limit', 'GTD', 151, 1.3557, 0]
+
+15:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'Day', 15, 1.3557, 0]
+
+16:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'GTC', 15, 1.3557, 0]
+
+17:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'OPG', 15, 1.3557, 0]
+
+18:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'IOC', 15, 1.3557, 0]
+
+19:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'FOK', 15, 1.3557, 0]
+
+20:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'GTX', 152, 1.3557, 0]
+
+21:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'limit', 'GTD', 151, 1.3557, 0]
+
+22:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Sell', 'limit', 'Day', 10, 1.3557, 0]
+
+
+
+23:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Sell', 'market', 'Day', 10, 1.3557, 0]
+
+24:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Sell', 'market', 'Day', 100, 1.3557, 0]
+
+25:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Buy', 'market', 'Day', 10, 1.3557, 0]
+
+26:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Buy', 'market', 'Day', 100, 1.3557, 0]
+
+27:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'Day', 10, 1.3557, 0]
+
+28:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'Day', 100, 1.3557, 0]
+
+29:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'Day', 10, 1.3557, 0]
+
+30:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'Day', 100, 1.3557, 0]
+
+31:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'GTC', 15, 1.3557, 0]
+
+32:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'OPG', 15, 1.3557, 0]
+
+33:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'IOC', 15, 1.3557, 0]
+
+34:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'FOK', 15, 1.3557, 0]
+
+35:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'GTX', 152, 1.3557, 0]
+
+36:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Sell', 'market', 'GTD', 151, 1.3557, 0]
+
+37:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'Day', 15, 1.3557, 0]
+
+38:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'GTC', 15, 1.3557, 0]
+
+39:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'OPG', 15, 1.3557, 0]
+
+40:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'IOC', 15, 1.3557, 0]
+
+41:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'FOK', 15, 1.3557, 0]
+
+42:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'GTX', 152, 1.3557, 0]
+
+43:
+  algo: MANUAL
+  msg: ['order', 12295, 'SIM', 'Buy', 'market', 'GTD', 151, 1.3557, 0]
+
+44:
+  algo: MANUAL
+  msg: ['order', 12273, 'SIM', 'Sell', 'market', 'Day', 10, 1.3557, 0]
