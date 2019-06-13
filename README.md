@@ -19,7 +19,7 @@ Replace input argument to different test cases.
 ## Place New Order
 - Market Order
 - Limit Order
-- TWAP
+- TWAP Order
 ## Cancel Order
 
 # Test Order Management Features
@@ -33,6 +33,4 @@ Replace input argument to different test cases.
 - Account 
 
 # Bug List (Potential)
-1. Test case 14: for GTD, FIX 59 should be 6 but not 0
-2. Test case 23: order type is limit, FIX 40 should be 2 but not 1
-3. Typo in OT. 'teminated' should be 'terminated'
+- Typo in OT. 'teminated' should be 'terminated'
