@@ -19,14 +19,7 @@ TIF_DICT = {
     'gtd': '6',
 }
 
-SIDE_DICT = {
-    'buy': '1',
-    'sell': '2',
-    'buy minus': '3',
-    'sell plus': '4',
-    'sell short': '5',
-    'sell short exempt': '6'
-}
+SIDE_DICT = {'buy': '1', 'sell': '2', 'buy minus': '3', 'sell plus': '4', 'sell short': '5', 'sell short exempt': '6'}
 
 TYPE_DICT = {
     'market': '1',
@@ -46,8 +39,7 @@ def test_manual_market_order(msg, test_at):
 
   cmd = '''awk -F, '$1 >= "{}" && /35=D/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/ && /38={}/' < {}'''.format(
       test_at, symbol, acc, side, order_type, tif, quantity, FIX_LOG_FILE)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
+  out, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()
   ret = 'NOK' if out == '' or err is not None else 'OK'
 
   return ret
@@ -59,8 +51,7 @@ def test_manual_limit_order(msg, test_at):
 
   cmd = '''awk -F, '$1 >= "{}" && /35=D/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/ && /38={}/' < {}'''.format(
       test_at, symbol, acc, side, order_type, tif, quantity, FIX_LOG_FILE)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
+  out, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()
   ret = 'NOK' if out == '' or err is not None else 'OK'
 
   return ret
@@ -86,8 +77,7 @@ def test_twap_order(msg, test_at):
   # All FIX message for new ordersA
   cmd = '''awk -F, '$1 >= "{}" && /35={}/ && /55={}/ && /56={}/ && /54={}/ && /40={}/ && /59={}/' < {}'''.format(
       test_at, msg_type, symbol, acc, side, order_type, tif, FIX_LOG_FILE)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
+  out, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()
   if out == '': return 'NOK'
 
   total_quantity = 0
@@ -104,10 +94,8 @@ def test_twap_order(msg, test_at):
   # 39: identifies current status of order. If field value = 4, this order is canceled
   order_status = '4'
   cmd = '''awk -F, '$1 >= "{}" && /35={}/ && /55={}/ && /56=ot/ && /54={}/ && /40={}/ && /59={}/ && /39={}/' < {}'''.format(
-      test_at, msg_type, symbol, side, order_type, tif, order_status,
-      FIX_LOG_FILE)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
+      test_at, msg_type, symbol, side, order_type, tif, order_status, FIX_LOG_FILE)
+  out, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()
 
   canceled_orders = out.strip().split('\n')
   # Canceled order should not be counted into total quantity
@@ -127,10 +115,8 @@ def get_fix_msg(msg_type, order_id):
   # New order single
   # msg_type = 'D'
   # All FIX message for new ordersA
-  cmd = '''tail -10000 {} | awk '/35={}/ && /11={}/' '''.format(
-      FIX_LOG_FILE, msg_type, order_id)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
+  cmd = '''tail -10000 {} | awk '/35={}/ && /11={}/' '''.format(FIX_LOG_FILE, msg_type, order_id)
+  out, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()
 
   return out
 

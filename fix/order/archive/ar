@@ -112,8 +112,7 @@ if __name__ == '__main__':
         elif action == 'cancel':
           cancel_order_algo(ws, algo, action)
 
-      place_order_at = (datetime.utcnow() -
-                        timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')
+      place_order_at = (datetime.utcnow() - timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')
       order_logs[key] = {'place_order_at': place_order_at}
 
       #log_file_handler.write('Test case: {}\n'.format(key))

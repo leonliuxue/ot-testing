@@ -19,14 +19,7 @@ TIF_DICT = {
     'gtd': '6',
 }
 
-SIDE_DICT = {
-    'buy': '1',
-    'sell': '2',
-    'buy minus': '3',
-    'sell plus': '4',
-    'sell short': '5',
-    'sell short exempt': '6'
-}
+SIDE_DICT = {'buy': '1', 'sell': '2', 'buy minus': '3', 'sell plus': '4', 'sell short': '5', 'sell short exempt': '6'}
 
 TYPE_DICT = {
     'market': '1',
@@ -44,10 +37,8 @@ def get_fix_msg(msg_type, order_id):
   # New order single
   # msg_type = 'D'
   # All FIX message for new ordersA
-  cmd = '''tail -10000 {} | awk '/35={}/ && /11={}/' '''.format(
-      FIX_LOG_FILE, msg_type, order_id)
-  out, err = subprocess.Popen(cmd, shell=True,
-                              stdout=subprocess.PIPE).communicate()
+  cmd = '''tail -10000 {} | awk '/35={}/ && /11={}/' '''.format(FIX_LOG_FILE, msg_type, order_id)
+  out, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()
 
   return out
 
@@ -110,10 +101,7 @@ if __name__ == '__main__':
           fix_msg = get_fix_msg('D', __order_id)
           _quantity = parse_fix_field(fix_msg, str(38))
           _order_type = parse_fix_field(fix_msg, '40')
-          algos[_algo_id]['orders'][_order_id] = {
-              'quantity': float(_quantity),
-              'order_type': _order_type
-          }
+          algos[_algo_id]['orders'][_order_id] = {'quantity': float(_quantity), 'order_type': _order_type}
 
   for key, val in algos.items():
     algo_id = key
@@ -125,8 +113,7 @@ if __name__ == '__main__':
       fix_quantity += _val['quantity']
       order_type = _val['order_type']
       if aggression == 'Highest' and TYPE_DICT['market'] != order_type:
-        print('{}: NOK. Expacted order type: {}. Real order type: {}'.format(
-            _key, order_type, _order_type))
+        print('{}: NOK. Expacted order type: {}. Real order type: {}'.format(_key, order_type, _order_type))
     if quantity != fix_quantity:
       print('{}: NOK'.format(algo_id))
     else:

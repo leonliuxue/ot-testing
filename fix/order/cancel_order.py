@@ -40,15 +40,6 @@ class DummyClient(WebSocketClient):
         exit()
 
 
-#with open(order_file.split('.')[0] + '_log.yml', 'w') as outfile:
-#  yaml.dump(order_logs, outfile, default_flow_style=False)
-
-    if ('\"algo\"' in m and 'done' not in m) or '\"order\"' in m:
-      log_file_handler.write(m)
-      log_file_handler.write('\n')
-      log_file_handler.flush()
-
-
 def openWs():
   ws = DummyClient(WS_ADDRESS, protocols=['http-only'])
   ws.connect()
@@ -65,12 +56,7 @@ def login():
 def place_order_algo(ws, algo, action, msg):
   cmd = ['algo', action, algo, str(uuid.uuid4()), msg]
   print(cmd)
-
   ws.send(json.dumps(cmd))
-
-
-def cancel_order_algo(ws, algo, action):
-  pass
 
 
 def place_order(ws, msg):
@@ -80,42 +66,20 @@ def place_order(ws, msg):
 
 
 ws = None
-order_log_file = None
-log_file_handler = None
 if __name__ == '__main__':
   try:
-    if len(sys.argv) == 1:
-      print('Error. Test case yaml file should be input argument.')
-      exit()
-
-    order_file = sys.argv[1]
-    order_log_file = order_file.split('.')[0] + '.log'
-    log_file_handler = open(order_log_file, 'w')
-    log_file_handler.truncate()
-
-    with open(order_file, 'r') as f:
-      orders = yaml.safe_load(f)
-
     ws = login()
 
-    for key, val in orders.items():
+    if len(sys.argv) == 1:
+      print('Error. Algo id should be input argument.')
+      exit()
 
-      algo = val['algo']
-      msg = val['msg']
+    order_id = sys.argv[1]
+    msg = ['algo', 'cancel', int(order_id)]
+    print(msg)
 
-      if algo == 'MANUAL':
-        place_order(ws, msg)
-      elif algo == 'TWAP':
-        action = val['action']
-        if action == 'new':
-          place_order_algo(ws, algo, action, msg)
-        elif action == 'cancel':
-          cancel_order_algo(ws, algo, action)
+    ws.send(json.dumps(msg))
 
-      place_order_at = (datetime.utcnow() - timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')
-      order_logs[key] = {'place_order_at': place_order_at}
-
-    ws.run_forever()
+    #ws.run_forever()
   except KeyboardInterrupt:
-    log_file_handler.close()
     ws.close()
