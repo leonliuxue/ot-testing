@@ -5,11 +5,11 @@
     Aggression: Highest
     InternalCross: None
     MaxPov: 0
-    MinSize: 30
+    MinSize: 9
     Price: 1
     Security: 
       acc: SIM
       qty: 20
       sec: 12278
       side: Buy
-    ValidSeconds: 300
+    ValidSeconds: 60

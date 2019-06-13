@@ -1,8 +1,8 @@
-1:
+0:
   algo: TWAP
   action: new
   msg:
-    Aggression: Highest
+    Aggression: Medium
     InternalCross: None
     MaxPov: 0.5
     MinSize: 9
@@ -13,3 +13,7 @@
       sec: 12278
       side: Buy
     ValidSeconds: 300
+1:
+  algo: TWAP
+  action: cancel
+  msg:

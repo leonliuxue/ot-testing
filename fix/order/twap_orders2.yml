@@ -4,8 +4,8 @@
   msg:
     Aggression: Highest
     InternalCross: None
-    MaxPov: 0
-    MinSize: 30
+    MaxPov: 0.5
+    MinSize: 9
     Price: 1
     Security: 
       acc: SIM
