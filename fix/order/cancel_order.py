@@ -75,7 +75,10 @@ if __name__ == '__main__':
       exit()
 
     if sys.argv[1] == 'algo':
-      msg = ['algo', 'cancel', int(sys.argv[3])]
+      if sys.argv[2] == 'cancel':
+        msg = ['algo', 'cancel', int(sys.argv[3])]
+      elif sys.argv[2] == 'cancel_all':
+        msg = ['algo', 'cancel_all', int(sys.argv[3]), sys.argv[4]]
     elif sys.argv[1] == 'cancel':
       msg = ['cancel', int(sys.argv[2])]
     else:
@@ -83,7 +86,6 @@ if __name__ == '__main__':
       exit()
 
     print(msg)
-
     ws.send(json.dumps(msg))
 
   except KeyboardInterrupt:

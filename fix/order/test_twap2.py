@@ -10,37 +10,27 @@ FIX_LOG_FILE = '/home/xzzzx/opentrade/store/fix/FIX.4.2-ot-sim.messages.current.
 TEST_RESULTS_FILE = 'test_results.yml'
 
 TIF_DICT = {
-  'day': '0',
-  'gtc': '1',
-  'opg': '2',
-  'ioc': '3',
-  'fok': '4',
-  'gtx': '5',
-  'gtd': '6',
+    'day': '0',
+    'gtc': '1',
+    'opg': '2',
+    'ioc': '3',
+    'fok': '4',
+    'gtx': '5',
+    'gtd': '6',
 }
 
 SIDE_DICT = {'buy': '1', 'sell': '2', 'buy minus': '3', 'sell plus': '4', 'sell short': '5', 'sell short exempt': '6'}
 
 TYPE_DICT = {
-  'market': '1',
-  'limit': '2',
-  'stop': '3',
-  'stop limit': '4',
-  'forex - swap': 'G',
+    'market': '1',
+    'limit': '2',
+    'stop': '3',
+    'stop limit': '4',
+    'forex - swap': 'G',
 }
 
 with open('../../security.yml', 'r') as f:
   SECURITY_DICT = yaml.safe_load(f)
-
-
-# def get_fix_msg(msg_type, order_id):
-#   # New order single
-#   # msg_type = 'D'
-#   # All FIX message for new ordersA
-#   cmd = '''tail -10000 {} | awk '/35={}/ && /11={}/' '''.format(FIX_LOG_FILE, msg_type, order_id)
-#   out, err = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).communicate()
-#
-#   return out
 
 
 def get_fix_msg(field_pairs):
@@ -69,6 +59,7 @@ def parse_fix_field(msg, field_no):
   else:
     return None
 
+  
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
@@ -98,7 +89,7 @@ if __name__ == '__main__':
         aggression = m.group(1).split(':')[1][2:-2]
       algos[algo_id]['aggression'] = aggression
 
-  # print(algos)
+  print(algos)
   # exit()
   for line in log_lines:
     if 'order' in line and 'unconfirmed' in line:
@@ -131,28 +122,38 @@ if __name__ == '__main__':
           _quantity = parse_fix_field(fix_msg, str(38))
           _order_type = parse_fix_field(fix_msg, '40')
           algos[algo_id]['cancelled_orders'][order_id] = {'quantity': float(_quantity), 'order_type': _order_type}
+  print(algos)
+  #exit()
 
+  
   for key, val in algos.items():
+    #print(val)
     algo_id = key
-    orders = val['orders']
+    new_orders = val['new_orders']
+    filled_orders = val['filled_orders']
     cancelled_orders = val['cancelled_orders']
+
+    if len(new_orders) != (len(filled_orders) + len(cancelled_orders)):
+      print('{:3s},{}'.format('NOK', algo_id))
+      continue
+
     quantity = val['quantity']
     aggression = val['aggression']
     fix_quantity = 0
-    for _key, _val in orders.items():
+    for _key, _val in new_orders.items():
       fix_quantity += _val['quantity']
       order_type = _val['order_type']
       if aggression == 'Highest' and TYPE_DICT['market'] != order_type:
-        print('{}: NOK. Expacted order type: {}. Real order type: {}'.format(_key, order_type, _order_type))
+        print('{:3s},{},Expected order_type:{} Actual order_type:{}'.format('NOK', order_type, _order_type, _quantity))
         continue
-    if quantity != fix_quantity:
-      print('{}: NOK'.format(algo_id))
-      continue
-    # else:
-    #  print('{}: OK'.format(algo_id))
 
-    if len(cancelled_orders) != 0:
-      if len(orders):
-        pass
+    for _key, _val in cancelled_orders.items():
+      _quantity = _val['quantity']
+      _order_type = _val['order_type']
+      _new_order = new_orders[_key]
 
-  print(algos)
+      if _quantity != _new_order['quantity'] or _order_type != _new_order['order_type']:
+        print('{:3s},{},{}'.format('NOK', _key, 'Cancelled order error'))
+        continue
+
+    print('{:3s},{}'.format('OK', algo_id))

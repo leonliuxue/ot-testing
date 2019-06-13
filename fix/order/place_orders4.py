@@ -32,7 +32,7 @@ class DummyClient(WebSocketClient):
     m = m.data.decode("utf-8")
 
     print(m)
-    if 'teminated' in m:
+    if 'algo' in m and ('teminated' in m or 'failed' in m):
       total_executed += 1
       print('total_excuted: {}'.format(total_executed))
       if total_executed == len(order_logs):
@@ -94,6 +94,10 @@ def cancel_orders(ws):
       print(msg)
       ws.send(json.dumps(msg))
 
+def cancel_all_orders(ws, sec):
+  msg = ['algo', 'cancel_all', int(sec), 'SIM']
+  print(msg)
+  ws.send(json.dumps(msg))
 
 ws = None
 order_log_file = None
@@ -118,6 +122,10 @@ if __name__ == '__main__':
       algo = val['algo']
       action = val['action'].lower()
       msg = val['msg']
+      sec = msg['Security']['sec']
+      cancel_all_orders(ws, sec)
+      time.sleep(5)
+
       if algo == 'manual':
         if action == 'new':
           place_order(ws, msg)
