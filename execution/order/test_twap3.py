@@ -185,4 +185,4 @@ if __name__ == '__main__':
         print('{:3s},{},{}'.format('NOK', _key, 'Cancelled order error'))
         continue
 
-    print('{:3s},{}'.format('OK', algo_id))
+    print('{},{},{}'.format(order_file, 'OK', algo_id))

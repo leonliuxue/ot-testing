@@ -33,10 +33,10 @@ class DummyClient(WebSocketClient):
     global total_executed
     m = m.data.decode("utf-8")
 
-    print(m)
+   # print(m)
     if 'algo' in m and ('teminated' in m or 'failed' in m):
       total_executed += 1
-      print('total_excuted: {}'.format(total_executed))
+      #print('total_excuted: {}'.format(total_executed))
       if total_executed == algo_no:
         ws.close()
         exit()
@@ -62,7 +62,7 @@ def login():
 
 def place_order_algo(ws, algo, action, msg):
   cmd = ['algo', action, algo, str(uuid.uuid4()), msg]
-  print(cmd)
+  #print(cmd)
 
   ws.send(json.dumps(cmd))
 
@@ -70,36 +70,36 @@ def place_order_algo(ws, algo, action, msg):
 def cancel_order_algo(ws, algo, action):
   log_file_handler.seek(0)
   log_lines = log_file_handler.readlines()
-  print(log_lines)
+  #print(log_lines)
   for line in log_lines:
     if 'algo' in line and 'new' in line:
       algo_id = line.strip().split(',')[2]
       msg = ['algo', 'cancel', int(algo_id)]
-      print(msg)
+      #print(msg)
       ws.send(json.dumps(msg))
 
 
 def place_order(ws, msg):
   cmd = msg
-  print(cmd)
+  #print(cmd)
   ws.send(json.dumps(cmd))
 
 
 def cancel_orders(ws):
   log_file_handler.seek(0)
   log_lines = log_file_handler.readlines()
-  print(log_lines)
+  #print(log_lines)
   for line in log_lines:
     if 'order' in line and 'new' in line:
       order_id = line.strip().split(',')[1]
       msg = ['cancel', int(order_id)]
-      print(msg)
+      #print(msg)
       ws.send(json.dumps(msg))
 
 
 def cancel_all_orders(ws, sec):
   msg = ['algo', 'cancel_all', int(sec), 'SIM']
-  print(msg)
+  #print(msg)
   ws.send(json.dumps(msg))
 
 
