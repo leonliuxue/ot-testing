@@ -34,15 +34,15 @@ class DummyClient(WebSocketClient):
     m = m.data.decode("utf-8")
 
     if 'algo' in m and ('teminated' in m or 'failed' in m):
-      print(m)
+      #print(m)
       total_executed += 1
-      print('total_excuted: {}'.format(total_executed))
+      print('Total executed twap: {}'.format(total_executed))
       if total_executed == algo_no:
         ws.close()
         exit()
 
     if ('\"order\"' in m or '\"algo\"' in m) and 'done' not in m:
-      print(m)
+      #print(m)
       log_file_handler.write(m)
       log_file_handler.write('\n')
       log_file_handler.flush()
@@ -82,7 +82,7 @@ def cancel_order_algo(ws, algo, action):
 
 def place_order(ws, msg):
   cmd = msg
-  #print(cmd)
+  print(cmd)
   ws.send(json.dumps(cmd))
 
 
@@ -132,7 +132,7 @@ if __name__ == '__main__':
       #time.sleep(5)
       #algos[key] = {'orders':[]}
 
-      if algo == 'manual':
+      if algo == 'MANUAL':
         if action == 'new':
           place_order(ws, msg)
         elif action == 'cancel':
