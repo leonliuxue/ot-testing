@@ -35,8 +35,9 @@ class DummyClient(WebSocketClient):
 
     if 'algo' in m and ('teminated' in m or 'failed' in m):
       #print(m)
+      algo_id = m.strip()[1:-1].split(',')[2]
       total_executed += 1
-      print('Total executed twap: {}'.format(total_executed))
+      print('{},{}'.format(algo_id, 'filled'))
       if total_executed == algo_no:
         ws.close()
         exit()

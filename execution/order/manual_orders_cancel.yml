@@ -1,0 +1,9 @@
+24:
+  algo: MANUAL
+  action: new
+  msg: ['order', 12273, 'SIM', 'Buy', 'limit', 'Day', 10, 0.1, 0]
+
+25:
+  algo: MANUAL
+  action: cancel
+  msg: ['cancel']
