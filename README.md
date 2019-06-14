@@ -19,11 +19,10 @@ Replace input argument to different test cases.
 
 
 # Test Execution Management Features
-## Place New Order
-- Market Order
-- Limit Order
+## New/Cancel Order
+- Manual Order. Market/Limit orders
 - TWAP Order
-## Cancel Order
+
 
 # Test Order Management Features
 - Pending Orders
@@ -34,6 +33,7 @@ Replace input argument to different test cases.
 - Market Watch
 - PnL
 - Account 
+
 
 # Bug List (Potential)
 - Typo in OT. 'teminated' should be 'terminated'
