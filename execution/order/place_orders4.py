@@ -33,15 +33,16 @@ class DummyClient(WebSocketClient):
     global total_executed
     m = m.data.decode("utf-8")
 
-   # print(m)
     if 'algo' in m and ('teminated' in m or 'failed' in m):
+      print(m)
       total_executed += 1
-      #print('total_excuted: {}'.format(total_executed))
+      print('total_excuted: {}'.format(total_executed))
       if total_executed == algo_no:
         ws.close()
         exit()
 
     if ('\"order\"' in m or '\"algo\"' in m) and 'done' not in m:
+      print(m)
       log_file_handler.write(m)
       log_file_handler.write('\n')
       log_file_handler.flush()
