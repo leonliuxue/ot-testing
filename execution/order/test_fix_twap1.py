@@ -105,46 +105,41 @@ if __name__ == '__main__':
       _order_id = tokens[1]
       _tm = tokens[2]
       if _order_id != order_id: continue
+      #print(_order_id)
       fix_msg = get_fix_msg([('35', 'D'), ('11', _order_id)])
+      #if fix_msg == '': continue 
       _quantity = parse_fix_field(fix_msg, str(38))
       #print(fix_msg)
       _order_type = parse_fix_field(fix_msg, '40')
-      algos[algo_id]['new_orders'][order_id] = {
-          'tm': int(_tm),
+      algos[algo_id]['new_orders'][order_id] = {'tm': int(_tm), 'quantity': float(_quantity), 'order_type': _order_type}
+    if 'order' in line and 'filled' in line:
+      tokens = line.strip()[1:-1].split(',')
+      _order_id = tokens[1]
+      if _order_id != order_id: continue
+      _quantity = float(tokens[5])
+      _tm = int(tokens[2])
+      algos[algo_id]['filled_orders'][_order_id] = {'quantity': float(_quantity), 'tm': _tm}
+
+    if 'order' in line and 'cancelled' in line:
+      tokens = line.strip()[1:-1].split(',')
+      _order_id = tokens[1]
+      if _order_id != order_id: continue
+      _tm = int(tokens[2])
+      if _order_id != _order_id: continue
+      fix_msg = get_fix_msg([('35', 'F'), ('41', _order_id)])
+      _quantity = parse_fix_field(fix_msg, str(38))
+      _order_type = parse_fix_field(fix_msg, '40')
+      algos[algo_id]['cancelled_orders'][_order_id] = {
+          'tm': _tm,
           'quantity': float(_quantity),
           'order_type': _order_type
       }
-    if 'order' in line and 'filled' in line:
-       tokens = line.strip()[1:-1].split(',')
-       _order_id = tokens[1]
-       if _order_id != order_id: continue
-       _quantity = float(tokens[5])
-       _tm = int(tokens[2])
-       algos[algo_id]['filled_orders'][_order_id] = {'quantity': float(_quantity), 'tm': _tm}
-
-    if 'order' in line and 'cancelled' in line:
-          tokens = line.strip()[1:-1].split(',')
-          _order_id = tokens[1]
-          if _order_id != order_id: continue
-          _tm = int(tokens[2])
-          if _order_id != _order_id: continue
-          fix_msg = get_fix_msg([('35', 'F'), ('41', _order_id)])
-          _quantity = parse_fix_field(fix_msg, str(38))
-          _order_type = parse_fix_field(fix_msg, '40')
-          algos[algo_id]['cancelled_orders'][_order_id] = {
-              'tm': _tm,
-              'quantity': float(_quantity),
-              'order_type': _order_type
-          }
-
-
 
   #print(algos)
   #exit()
   #fn = '~/opentrade/store/confirmations'
-  #log = parse(fn, add_confirmation) 
+  #log = parse(fn, add_confirmation)
 
-  
   #print(algos)
   #exit()
 
