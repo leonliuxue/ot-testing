@@ -4,6 +4,7 @@ import subprocess
 import sys
 
 import yaml
+from parse_confirmation import parse, add_confirmation
 
 TEST_LOG_FILE = 'test_log.yml'
 FIX_LOG_FILE = '/home/xzzzx/opentrade/store/fix/FIX.4.2-ot-sim.messages.current.log'
@@ -92,41 +93,37 @@ if __name__ == '__main__':
       if m:
         valid_seconds = int(m.group(1).split(':')[1])
       algos[algo_id]['valid_seconds'] = valid_seconds
-  #print(algos)
-  # exit()
-  for line in log_lines:
+
     if 'order' in line and 'unconfirmed' in line:
       tokens = line.strip()[1:-1].split(',')
       algo_id = tokens[6]
       order_id = tokens[1]
-      for _line in log_lines:
-        if 'order' in _line and 'new' in _line and 'filled' not in _line:
-          tokens = _line.strip()[1:-1].split(',')
-          _order_id = tokens[1]
-          _tm = tokens[2]
-          if _order_id != order_id: continue
-          fix_msg = get_fix_msg([('35', 'D'), ('11', _order_id)])
-          _quantity = parse_fix_field(fix_msg, str(38))
-          #print(fix_msg)
-          _order_type = parse_fix_field(fix_msg, '40')
-          algos[algo_id]['new_orders'][order_id] = {
-              'tm': int(_tm),
-              'quantity': float(_quantity),
-              'order_type': _order_type
-          }
+      #algos[algo_id][order_id] = {}
 
-      for _line in log_lines:
-        if 'order' in _line and 'filled' in _line:
-          tokens = _line.strip()[1:-1].split(',')
-          _order_id = tokens[1]
-          if _order_id != order_id: continue
-          _quantity = float(tokens[5])
-          _tm = int(tokens[2])
-          algos[algo_id]['filled_orders'][_order_id] = {'quantity': float(_quantity), 'tm': _tm}
+    if 'order' in line and 'new' in line and 'filled' not in line:
+      tokens = line.strip()[1:-1].split(',')
+      _order_id = tokens[1]
+      _tm = tokens[2]
+      if _order_id != order_id: continue
+      fix_msg = get_fix_msg([('35', 'D'), ('11', _order_id)])
+      _quantity = parse_fix_field(fix_msg, str(38))
+      #print(fix_msg)
+      _order_type = parse_fix_field(fix_msg, '40')
+      algos[algo_id]['new_orders'][order_id] = {
+          'tm': int(_tm),
+          'quantity': float(_quantity),
+          'order_type': _order_type
+      }
+    if 'order' in line and 'filled' in line:
+       tokens = line.strip()[1:-1].split(',')
+       _order_id = tokens[1]
+       if _order_id != order_id: continue
+       _quantity = float(tokens[5])
+       _tm = int(tokens[2])
+       algos[algo_id]['filled_orders'][_order_id] = {'quantity': float(_quantity), 'tm': _tm}
 
-      for _line in log_lines:
-        if 'order' in _line and 'cancelled' in _line:
-          tokens = _line.strip()[1:-1].split(',')
+    if 'order' in line and 'cancelled' in line:
+          tokens = line.strip()[1:-1].split(',')
           _order_id = tokens[1]
           if _order_id != order_id: continue
           _tm = int(tokens[2])
@@ -139,6 +136,15 @@ if __name__ == '__main__':
               'quantity': float(_quantity),
               'order_type': _order_type
           }
+
+
+
+  #print(algos)
+  #exit()
+  #fn = '~/opentrade/store/confirmations'
+  #log = parse(fn, add_confirmation) 
+
+  
   #print(algos)
   #exit()
 

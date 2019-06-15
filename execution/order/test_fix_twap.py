@@ -191,4 +191,4 @@ if __name__ == '__main__':
         print('{:3s},{},{}'.format('NOK', _key, 'Cancelled order error'))
         continue
 
-    print('{},{},{}'.format(algo_id,'tested', 'OK'))
+    print('{},{},{}'.format(algo_id, 'tested', 'OK'))

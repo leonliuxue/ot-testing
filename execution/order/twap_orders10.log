@@ -1,0 +1,5 @@
+["algo",2129,1785,1560586559,"6a546c15-1e16-4854-b19b-7cc361c15b1e","TWAP","new","{\"Aggression\":\"Highest\",\"InternalCross\":\"None\",\"MaxPov\":0.5,\"MinSize\":9,\"Price\":0,\"Security\":{\"acc\":\"SIM\",\"qty\":20,\"sec\":12278,\"side\":\"Buy\"},\"ValidSeconds\":60}"]
+["order",52239260,1560586559,24467,"unconfirmed",12278,1785,100,103,101,9.0,6.8299,"buy","market","Day"]
+["order",52239260,1560586559,24468,"pending"]
+["order",52239260,1560586559,24469,"new","SIM-52239260"]
+["order",52239260,1560586559,24470,"filled",9.0,6.8307,"e4decf7e-f9ba-4f1b-8872-eda4b69d09ee","new"]
