@@ -142,7 +142,7 @@ if __name__ == '__main__':
       if real_qty != expected_qty:
         print('{},{},{},expected {},real {}'.format('NOK', algo_id, 'qty', expected_qty, real_qty))
         continue
-    
+
     if passed:
       print('{},{}'.format('OK', algo_id))
 
