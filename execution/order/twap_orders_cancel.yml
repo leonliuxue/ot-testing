@@ -2,7 +2,7 @@
   algo: TWAP
   action: new
   msg:
-    Aggression: Highest
+    Aggression: Low
     InternalCross: None
     MaxPov: 0.5
     MinSize: 9

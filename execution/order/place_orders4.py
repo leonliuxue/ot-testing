@@ -14,13 +14,14 @@ TEST_LOG_FILE = 'test_log.yml'
 BROKER = {'103': 'sim'}
 order_logs = {}
 orders = {}
-total_executed = 0
 algo_no = 0
 algos = {}
 
 
 class DummyClient(WebSocketClient):
-
+  is_algo_cancelled = False
+  total_executed = 0
+  
   def opened(self):
     # print('Opened up')
     pass
@@ -30,24 +31,27 @@ class DummyClient(WebSocketClient):
     pass
 
   def received_message(self, m):
-    global total_executed
     m = m.data.decode("utf-8")
 
+    print(m)
+
     if 'algo' in m and ('teminated' in m or 'failed' in m):
-      #print(m)
       algo_id = m.strip()[1:-1].split(',')[2]
-      total_executed += 1
+      self.total_executed += 1
       print('{},{}'.format(algo_id, 'filled'))
-      if total_executed == algo_no:
+      if self.total_executed == algo_no:
+        #time.sleep(5)
         ws.close()
         exit()
 
     if ('\"order\"' in m or '\"algo\"' in m) and 'done' not in m:
-      #print(m)
       log_file_handler.write(m)
       log_file_handler.write('\n')
       log_file_handler.flush()
 
+      if 'cancelled' in m :
+        ws.close()
+        exit()
 
 def openWs():
   ws = DummyClient(WS_ADDRESS, protocols=['http-only'])
@@ -79,11 +83,15 @@ def cancel_order_algo(ws, algo, action):
       msg = ['algo', 'cancel', int(algo_id)]
       #print(msg)
       ws.send(json.dumps(msg))
+      log_file_handler.write(json.dumps(msg))
+      log_file_handler.write('\n')
+      log_file_handler.flush()
+
 
 
 def place_order(ws, msg):
   cmd = msg
-  print(cmd)
+  #print(cmd)
   ws.send(json.dumps(cmd))
 
 
@@ -126,7 +134,7 @@ if __name__ == '__main__':
 
     for key, val in orders.items():
       algo = val['algo']
-      action = val['action'].lower()
+      action = val['action']
       msg = val['msg']
       #sec = msg['Security']['sec']
       #cancel_all_orders(ws, sec)
@@ -148,8 +156,8 @@ if __name__ == '__main__':
           time.sleep(5)
           cancel_order_algo(ws, algo, action)
 
-      place_order_at = (datetime.utcnow() - timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')
-      order_logs[key] = {'place_order_at': place_order_at}
+      #place_order_at = (datetime.utcnow() - timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')
+      #order_logs[key] = {'place_order_at': place_order_at}
 
     ws.run_forever()
   except KeyboardInterrupt:

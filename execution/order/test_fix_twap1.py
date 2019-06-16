@@ -107,7 +107,7 @@ if __name__ == '__main__':
       if _order_id != order_id: continue
       #print(_order_id)
       fix_msg = get_fix_msg([('35', 'D'), ('11', _order_id)])
-      #if fix_msg == '': continue 
+      #if fix_msg == '': continue
       _quantity = parse_fix_field(fix_msg, str(38))
       #print(fix_msg)
       _order_type = parse_fix_field(fix_msg, '40')
