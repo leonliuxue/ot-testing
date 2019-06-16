@@ -19,6 +19,7 @@ algos = {}
 
 
 class DummyClient(WebSocketClient):
+  is_algo_cancelled = False
   total_executed = 0
 
   def opened(self):
@@ -38,15 +39,19 @@ class DummyClient(WebSocketClient):
       algo_id = m.strip()[1:-1].split(',')[2]
       self.total_executed += 1
       print('{},{}'.format(algo_id, 'filled'))
-      if self.total_executed == algo_no:
-        #time.sleep(5)
-        ws.close()
-        exit()
+      #if self.total_executed == algo_no:
+      #time.sleep(5)
+      #ws.close()
+      #exit()
 
     if ('\"order\"' in m or '\"algo\"' in m) and 'done' not in m:
       log_file_handler.write(m)
       log_file_handler.write('\n')
       log_file_handler.flush()
+
+      if 'cancelled' in m:
+        ws.close()
+        exit()
 
 
 def openWs():
@@ -69,10 +74,43 @@ def place_order_algo(ws, algo, action, msg):
   ws.send(json.dumps(cmd))
 
 
+def cancel_order_algo(ws, algo, action):
+  log_file_handler.seek(0)
+  log_lines = log_file_handler.readlines()
+  #print(log_lines)
+  for line in log_lines:
+    if 'algo' in line and 'new' in line:
+      algo_id = line.strip().split(',')[2]
+      msg = ['algo', 'cancel', int(algo_id)]
+      #print(msg)
+      ws.send(json.dumps(msg))
+      log_file_handler.write(json.dumps(['algo', '', int(algo_id), '', '', '', 'cancel', {}]))
+      log_file_handler.write('\n')
+      log_file_handler.flush()
+
+
 def place_order(ws, msg):
   cmd = msg
   #print(cmd)
   ws.send(json.dumps(cmd))
+
+
+def cancel_orders(ws):
+  log_file_handler.seek(0)
+  log_lines = log_file_handler.readlines()
+  #print(log_lines)
+  for line in log_lines:
+    if 'order' in line and 'new' in line:
+      order_id = line.strip().split(',')[1]
+      msg = ['cancel', int(order_id)]
+      #print(msg)
+      ws.send(json.dumps(msg))
+
+
+def cancel_all_orders(ws, sec):
+  msg = ['algo', 'cancel_all', int(sec), 'SIM']
+  #print(msg)
+  ws.send(json.dumps(msg))
 
 
 ws = None
@@ -98,6 +136,11 @@ if __name__ == '__main__':
       algo = val['algo']
       action = val['action']
       msg = val['msg']
+      #sec = msg['Security']['sec']
+      #cancel_all_orders(ws, sec)
+      #time.sleep(5)
+      #algos[key] = {'orders':[]}
+
       if algo == 'MANUAL':
         if action == 'new':
           place_order(ws, msg)
@@ -109,6 +152,12 @@ if __name__ == '__main__':
         if action == 'new':
           algo_no += 1
           place_order_algo(ws, algo, action, msg)
+        elif action == 'cancel':
+          time.sleep(5)
+          cancel_order_algo(ws, algo, action)
+
+      #place_order_at = (datetime.utcnow() - timedelta(seconds=1)).strftime('%Y%m%d-%H:%M:%S.%f')
+      #order_logs[key] = {'place_order_at': place_order_at}
 
     ws.run_forever()
   except KeyboardInterrupt:

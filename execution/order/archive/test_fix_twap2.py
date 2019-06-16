@@ -112,9 +112,9 @@ if __name__ == '__main__':
       seq_id, algo_id, tm, token, name, status, body = dfs[1:]
       if status == 'new':
         msg = json.loads(body)
-        algos[algo_id] = {'msg': msg, 'order_ids': [], 'is_cancelled':False}
+        algos[algo_id] = {'msg': msg, 'order_ids': [], 'is_cancelled': False}
       elif status == 'cancel':
-        algos[algo_id]['is_cancelled'] = True 
+        algos[algo_id]['is_cancelled'] = True
     elif action == 'order':
       order_id, tm, seq_no, exec_type = dfs[1:5]
       algo_id = 0
@@ -129,30 +129,27 @@ if __name__ == '__main__':
         #print(fix_msg)
         qty = float(parse_fix_field(fix_msg, str(38)))
         order_type = parse_fix_field(fix_msg, '40')
-        orders[order_id]['new'] = {'qty':qty, 'order_type':order_type}
+        orders[order_id]['new'] = {'qty': qty, 'order_type': order_type}
       elif exec_type == 'filled':
         qty, px = dfs[5:7]
-        orders[order_id]['filled'] = {'qty':qty, 'px':px}
+        orders[order_id]['filled'] = {'qty': qty, 'px': px}
     #print(algos)
     #continue
   print(algos)
   print(orders)
-  
-  
+
   for key, val in algos.items():
     algo_id = key
     msg = val['msg']
     order_ids = val['order_ids']
-    
+
     expected_qty = msg['Security']['qty']
     real_qty = 0
     for order_id in order_ids:
       real_qty += orders[order_id]['filled']['qty']
-    if real_qty != expected_qty: 
-      print('{},{},{},expected {},real {}'.format('NOK',key,'qty',expected_qty, real_qty))
+    if real_qty != expected_qty:
+      print('{},{},{},expected {},real {}'.format('NOK', key, 'qty', expected_qty, real_qty))
 
-  
-    print('{},{}'.format('OK',algo_id)) 
-  
+    print('{},{}'.format('OK', algo_id))
+
   f.close()
-  
