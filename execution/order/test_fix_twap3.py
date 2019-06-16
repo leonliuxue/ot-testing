@@ -114,12 +114,11 @@ if __name__ == '__main__':
         order_type = parse_fix_field(fix_msg, '40')
         orders[order_id]['cancelled'] = {'qty': qty, 'order_type': order_type}
 
-  for key, val in algos.items():
+  for algo_id, algo in algos.items():
     passed = True
-    algo_id = key
-    msg = val['msg']
-    order_ids = val['order_ids']
-    is_cancelled = val['is_cancelled']
+    msg = algo['msg']
+    order_ids = algo['order_ids']
+    is_cancelled = algo['is_cancelled']
 
     if is_cancelled == True:
       for order_id in order_ids:
@@ -141,7 +140,7 @@ if __name__ == '__main__':
           continue
         real_qty += order['filled']['qty']
       if real_qty != expected_qty:
-        print('{},{},{},expected {},real {}'.format('NOK', key, 'qty', expected_qty, real_qty))
+        print('{},{},{},expected {},real {}'.format('NOK', algo_id, 'qty', expected_qty, real_qty))
         continue
     
     if passed:
